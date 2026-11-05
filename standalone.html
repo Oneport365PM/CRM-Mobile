@@ -1,0 +1,2249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>OnePort365 CRM Mobile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@400;500;700&display=swap" />
+  <style>
+/*
+  OnePort 365 — design tokens.
+  Source of truth: design/DESIGN_SYSTEM.md
+  Extracted from the OnePort 365 design system reference. Do not hand-roll
+  new colors/fonts elsewhere — import or copy these into every build.
+*/
+
+:root {
+  /* ---- Brand colour ---- */
+  --op-dark-green: #023819;
+  --op-light-green: #D1DBBD;
+  --op-accent-lime: #BFFB4F;
+  --op-accent-lime-hover: #a9e83a;
+  --op-gold: #FFCC1A;
+  --op-white: #FFFFFF;
+  --op-cream: #FDFBF1;
+  --op-silver-light: #808080;
+  --op-silver-dark: #383838;
+  --op-error: #FF1A1A;
+  --op-error-dark-surface: #FF6B6B;
+  --op-success: #1F8A5B;
+
+  /* ---- Semantic chip pairs (bg / text) ---- */
+  --op-chip-neutral-bg: #EDEFE8;
+  --op-chip-neutral-text: #4a5a3f;
+  --op-chip-success-bg: #E1F1E8;
+  --op-chip-success-text: #0f7a45;
+  --op-chip-warning-bg: #FFF3CC;
+  --op-chip-warning-text: #8a6a00;
+  --op-chip-error-bg: #FDE0E0;
+  --op-chip-error-text: #cc1414;
+  --op-chip-primary-bg: var(--op-accent-lime);
+  --op-chip-primary-text: var(--op-dark-green);
+  --op-chip-enterprise-bg: var(--op-dark-green);
+  --op-chip-enterprise-text: var(--op-accent-lime);
+  --op-chip-mode-bg: var(--op-light-green);
+  --op-chip-mode-text: var(--op-dark-green);
+
+  /* ---- Borders (dark-green tinted, never flat grey) ---- */
+  --op-border-card: rgba(2, 56, 25, .12);
+  --op-border-divider: rgba(2, 56, 25, .07);
+  --op-border-input: rgba(2, 56, 25, .35);
+  --op-border-input-dark: rgba(253, 251, 241, .4);
+
+  /* ---- Categorical series (charts / stages, 6 steps) ---- */
+  --op-cat-1: #023819;
+  --op-cat-2: #2F7A3F;
+  --op-cat-3: #7FAE2E;
+  --op-cat-4: #BFFB4F;
+  --op-cat-5: #FFCC1A;
+  --op-cat-6: #D1DBBD;
+
+  /* ---- Avatar fills (deterministic 4-cycle) ---- */
+  --op-avatar-1-bg: #023819;
+  --op-avatar-1-text: #BFFB4F;
+  --op-avatar-2-bg: #BFFB4F;
+  --op-avatar-2-text: #023819;
+  --op-avatar-3-bg: #D1DBBD;
+  --op-avatar-3-text: #023819;
+  --op-avatar-4-bg: #FFCC1A;
+  --op-avatar-4-text: #023819;
+
+  /* ---- Typography ---- */
+  --op-font-display: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --op-font-body: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* ---- Spacing — 4px base ---- */
+  --op-space-1: 4px;
+  --op-space-2: 8px;
+  --op-space-3: 12px;
+  --op-space-4: 16px;
+  --op-space-6: 24px;
+  --op-space-8: 40px;
+  --op-space-10: 64px;
+
+  /* ---- Radius ---- */
+  --op-radius-sm: 6px;
+  --op-radius-md: 8px;
+  --op-radius-lg: 12px;
+  --op-radius-xl: 16px;
+  --op-radius-full: 999px;
+
+  /* ---- Elevation (soft green-tinted shadows) ---- */
+  --op-elevation-1: 0 1px 2px rgba(2, 56, 25, .05), 0 1px 3px rgba(2, 56, 25, .04);
+  --op-elevation-2: 0 2px 4px rgba(2, 56, 25, .05), 0 8px 20px -8px rgba(2, 56, 25, .14);
+  --op-elevation-3: 0 4px 8px rgba(2, 56, 25, .06), 0 18px 40px -16px rgba(2, 56, 25, .22);
+  --op-elevation-hero: 0 20px 45px -22px rgba(2, 56, 25, .8);
+
+  /* ---- Focus ring (lime, used on active/focused inputs) ---- */
+  --op-focus-ring: 0 0 0 3px rgba(191, 251, 79, .4);
+}
+
+
+
+/*
+  OnePort365 CRM — mobile clickthrough prototype.
+  Every colour, font, radius and shadow comes from design/tokens.css
+  (see design/DESIGN_SYSTEM.md). Lime is kept to one primary action per view.
+*/
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--op-chip-neutral-bg);
+  color: var(--op-silver-dark);
+  font-family: var(--op-font-body);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--op-dark-green); outline-offset: 2px; }
+
+/* ---------- Desktop stage ---------- */
+.demo {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 64px;
+  padding: 32px 16px;
+}
+
+.brief { max-width: 320px; }
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--op-silver-light);
+}
+.brief h1 {
+  margin: 0 0 12px;
+  font-family: var(--op-font-display); font-weight: 600; font-size: 32px; letter-spacing: -.015em;
+  color: var(--op-dark-green); line-height: 1.1;
+}
+.brief-lede { margin: 0 0 16px; line-height: 1.55; }
+.flows { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 8px; }
+.flows button {
+  width: 100%; display: flex; gap: 12px; align-items: flex-start; text-align: left;
+  background: var(--op-white); border: 1px solid var(--op-border-card); border-radius: var(--op-radius-lg);
+  padding: 12px 14px; cursor: pointer; line-height: 1.4; color: var(--op-dark-green); font-weight: 500;
+  box-shadow: var(--op-elevation-1); transition: box-shadow .15s, border-color .15s;
+}
+.flows button:hover { box-shadow: var(--op-elevation-3); border-color: var(--op-dark-green); }
+.flows span { font-family: var(--op-font-display); font-weight: 600; color: #2f6b1e; }
+
+.link {
+  background: none; border: none; padding: 0; cursor: pointer;
+  font-weight: 700; color: var(--op-dark-green); border-bottom: 1.5px solid var(--op-dark-green);
+}
+
+/* ---------- Phone frame ---------- */
+.phone {
+  position: relative;
+  width: 390px;
+  height: 844px;
+  flex-shrink: 0;
+  background: var(--op-cream);
+  border: 10px solid var(--op-dark-green);
+  border-radius: 52px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--op-elevation-hero);
+}
+
+@media (max-width: 760px) {
+  .brief { display: none; }
+  .demo { padding: 0; min-height: 100dvh; }
+  .phone { width: 100%; height: 100dvh; border: 0; border-radius: 0; box-shadow: none; }
+  .statusbar { display: none !important; }
+  .appbar { padding-top: max(12px, env(safe-area-inset-top)); }
+}
+
+.statusbar {
+  height: 44px; padding: 14px 28px 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--op-font-display); font-weight: 600; font-size: 14px; color: var(--op-dark-green);
+  flex-shrink: 0;
+}
+.status-icons { display: flex; gap: 6px; align-items: center; }
+.status-icons svg { height: 11px; width: auto; }
+
+.appbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 16px 12px; flex-shrink: 0;
+}
+.appbar-title { display: flex; align-items: center; gap: 10px; }
+.crm-badge {
+  font-family: var(--op-font-display); font-weight: 700; font-size: 11px;
+  background: var(--op-dark-green); color: var(--op-accent-lime);
+  padding: 4px 8px; border-radius: var(--op-radius-sm);
+}
+.appbar h1 {
+  margin: 0; font-family: var(--op-font-display); font-weight: 600; font-size: 22px;
+  color: var(--op-dark-green); letter-spacing: -.01em;
+}
+.appbar-right { display: flex; align-items: center; gap: 10px; }
+.brand { font-family: var(--op-font-display); font-weight: 600; font-size: 13px; color: var(--op-dark-green); }
+.brand b { color: #2F7A3F; }
+
+/* ---------- Screens ---------- */
+.screens { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
+.screen { padding: 0 16px 120px; }
+
+/* KPIs */
+.kpis {
+  display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory;
+  margin: 0 -16px 14px; padding: 2px 16px 4px; scroll-padding: 0 16px; scrollbar-width: none;
+}
+.kpis::-webkit-scrollbar { display: none; }
+.kpi {
+  flex: 0 0 72%; scroll-snap-align: start;
+  background: var(--op-white); border: 1px solid var(--op-border-card); border-radius: var(--op-radius-xl);
+  padding: 14px 16px; box-shadow: var(--op-elevation-1);
+}
+.kpi.kpi-dark { background: var(--op-dark-green); border-color: var(--op-dark-green); box-shadow: var(--op-elevation-hero); }
+.kpi-label { font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--op-silver-light); }
+.kpi-dark .kpi-label { color: var(--op-light-green); }
+.kpi-value { font-family: var(--op-font-display); font-weight: 600; font-size: 26px; color: var(--op-dark-green); margin: 6px 0 2px; letter-spacing: -.01em; }
+.kpi-dark .kpi-value { color: var(--op-cream); }
+.kpi-value.money { color: var(--op-chip-warning-text); }
+.kpi-sub { font-size: 12px; color: var(--op-silver-light); }
+.kpi-dark .kpi-sub { color: var(--op-light-green); }
+
+/* Search */
+.search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--op-light-green); border-radius: var(--op-radius-md);
+  padding: 0 12px; height: 44px; margin-bottom: 14px; color: var(--op-dark-green);
+}
+.search svg { width: 18px; height: 18px; flex-shrink: 0; }
+.search input {
+  flex: 1; min-width: 0; border: 0; background: transparent; outline: none;
+  font: inherit; font-size: 15px; color: var(--op-dark-green);
+}
+.search input::placeholder { color: #4a5a3f; }
+.search:focus-within { box-shadow: var(--op-focus-ring); }
+
+/* Stage strip */
+.stage-strip {
+  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+  margin: 0 -16px 6px; padding: 2px 16px 8px;
+}
+.stage-strip::-webkit-scrollbar { display: none; }
+.stage-chip {
+  position: relative; flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--op-white); border: 1.5px solid var(--op-dark-green); color: var(--op-dark-green);
+  border-radius: var(--op-radius-md); padding: 8px 12px 10px;
+  font-family: var(--op-font-display); font-weight: 600; font-size: 13px; cursor: pointer;
+}
+.stage-chip::after {
+  content: ""; position: absolute; left: 10px; right: 10px; bottom: 3px; height: 3px;
+  border-radius: 2px; background: var(--bar);
+}
+.stage-chip.active { background: var(--op-accent-lime); border-color: var(--op-accent-lime); }
+.stage-num {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--op-dark-green); color: var(--op-white);
+  display: inline-flex; align-items: center; justify-content: center; font-size: 11px;
+}
+.stage-count {
+  font-family: var(--op-font-body); font-weight: 700; font-size: 11px;
+  background: var(--op-chip-neutral-bg); color: var(--op-chip-neutral-text);
+  border-radius: var(--op-radius-full); padding: 1px 7px;
+}
+.stage-chip.active .stage-count { background: rgba(2,56,25,.12); color: var(--op-dark-green); }
+
+.list-summary { margin: 4px 0 10px; font-size: 12px; color: var(--op-silver-light); }
+.list-summary b { color: var(--op-dark-green); }
+
+/* Deal cards */
+.card-list { display: grid; gap: 10px; }
+.deal-card {
+  background: var(--op-white); border: 1px solid var(--op-border-card); border-radius: var(--op-radius-lg);
+  padding: 14px; box-shadow: var(--op-elevation-1); cursor: pointer;
+  transition: box-shadow .15s, transform .25s, opacity .25s;
+}
+.deal-card:active { box-shadow: var(--op-elevation-3); }
+.deal-card.leaving { opacity: 0; transform: translateX(40px); }
+.deal-card.fresh { animation: fresh 1.6s ease-out; }
+@keyframes fresh { 0% { box-shadow: 0 0 0 3px var(--op-accent-lime); } 100% { box-shadow: var(--op-elevation-1); } }
+
+.deal-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.deal-top h3 {
+  margin: 0; font-family: var(--op-font-display); font-weight: 600; font-size: 15px; color: var(--op-dark-green);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.deal-value { font-family: var(--op-font-display); font-weight: 600; font-size: 15px; color: var(--op-chip-warning-text); white-space: nowrap; }
+.deal-meta { display: flex; justify-content: space-between; align-items: center; margin: 10px 0; gap: 8px; }
+.owner { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--op-silver-dark); min-width: 0; }
+.owner span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.deal-foot {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  border-top: 1px solid var(--op-border-divider); padding-top: 10px;
+}
+.muted { font-size: 12px; color: var(--op-silver-light); }
+.deal-note { font-size: 12px; color: var(--op-silver-light); margin: -4px 0 10px; }
+
+.move-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--op-white); border: 1.5px solid var(--op-dark-green); color: var(--op-dark-green);
+  border-radius: var(--op-radius-md); padding: 6px 10px; cursor: pointer;
+  font-family: var(--op-font-display); font-weight: 600; font-size: 12px; white-space: nowrap;
+}
+.move-btn svg { width: 14px; height: 14px; }
+.move-btn:hover, .move-btn:active { background: var(--op-dark-green); color: var(--op-accent-lime); }
+
+.empty {
+  text-align: center; padding: 32px 16px; color: var(--op-silver-light);
+  border: 1.5px dashed var(--op-border-input); border-radius: var(--op-radius-lg);
+}
+.empty b { display: block; color: var(--op-dark-green); font-family: var(--op-font-display); font-weight: 600; margin-bottom: 4px; }
+
+/* Chips */
+.chip {
+  display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
+  font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: var(--op-radius-sm);
+  background: var(--op-chip-neutral-bg); color: var(--op-chip-neutral-text);
+}
+.chip-SME { background: var(--op-chip-neutral-bg); color: var(--op-chip-neutral-text); }
+.chip-Growth { background: var(--op-chip-warning-bg); color: var(--op-chip-warning-text); }
+.chip-Enterprise { background: var(--op-chip-enterprise-bg); color: var(--op-chip-enterprise-text); }
+.chip-won { background: var(--op-chip-success-bg); color: var(--op-chip-success-text); border-radius: var(--op-radius-full); }
+.chip-lost { background: var(--op-chip-error-bg); color: var(--op-chip-error-text); border-radius: var(--op-radius-full); }
+.chip-primary { background: var(--op-chip-primary-bg); color: var(--op-chip-primary-text); }
+.chip-mode { background: var(--op-chip-mode-bg); color: var(--op-chip-mode-text); }
+
+/* Avatars — rounded squircles, deterministic 4-fill cycle */
+.avatar {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--op-font-display); font-weight: 600; font-size: 12px;
+}
+.avatar-xs { width: 24px; height: 24px; border-radius: 7px; font-size: 10px; }
+.avatar-sm { width: 30px; height: 30px; border-radius: 8px; font-size: 11px; }
+.avatar-lg { width: 46px; height: 46px; border-radius: 12px; font-size: 15px; }
+.avatar-1 { background: var(--op-avatar-1-bg); color: var(--op-avatar-1-text); }
+.avatar-2 { background: var(--op-avatar-2-bg); color: var(--op-avatar-2-text); }
+.avatar-3 { background: var(--op-avatar-3-bg); color: var(--op-avatar-3-text); }
+.avatar-4 { background: var(--op-avatar-4-bg); color: var(--op-avatar-4-text); }
+
+/* Row lists (companies / contacts) */
+.row-list {
+  background: var(--op-white); border: 1px solid var(--op-border-card); border-radius: var(--op-radius-xl);
+  box-shadow: var(--op-elevation-1); overflow: hidden;
+}
+.row {
+  width: 100%; display: flex; gap: 12px; align-items: center; text-align: left;
+  padding: 12px 14px; background: none; border: 0; border-bottom: 1px solid var(--op-border-divider);
+  cursor: pointer;
+}
+.row:last-child { border-bottom: 0; }
+.row:active { background: var(--op-chip-neutral-bg); }
+.row.fresh { animation: freshRow 1.6s ease-out; }
+@keyframes freshRow { 0% { background: rgba(191,251,79,.45); } 100% { background: transparent; } }
+.row-main { flex: 1; min-width: 0; }
+.row-title {
+  display: block; font-family: var(--op-font-display); font-weight: 600; font-size: 14px; color: var(--op-dark-green);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.row-sub { display: block; font-size: 12px; color: var(--op-silver-light); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px; }
+.row-side { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+.row-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.round-btn {
+  width: 34px; height: 34px; border-radius: var(--op-radius-md);
+  border: 1px solid var(--op-border-card); background: var(--op-white); color: var(--op-dark-green);
+  display: inline-flex; align-items: center; justify-content: center; text-decoration: none;
+}
+.round-btn svg { width: 16px; height: 16px; }
+
+/* FAB — the one lime action per screen */
+.fab {
+  position: absolute; right: 16px; bottom: 92px; z-index: 20;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--op-accent-lime); color: var(--op-dark-green); border: 0;
+  border-radius: var(--op-radius-full); padding: 14px 20px 14px 16px; cursor: pointer;
+  font-family: var(--op-font-display); font-weight: 600; font-size: 14px;
+  box-shadow: var(--op-elevation-3), 0 6px 16px -6px rgba(2,56,25,.45);
+}
+.fab:hover { background: var(--op-accent-lime-hover); }
+.fab { transition: transform .2s, opacity .2s; }
+.toast-on .fab { opacity: 0; transform: translateY(12px); pointer-events: none; }
+.fab svg { width: 20px; height: 20px; }
+
+/* Bottom nav — dark green structure, lime selected */
+.bottomnav {
+  flex-shrink: 0; display: flex; justify-content: space-around;
+  background: var(--op-dark-green); padding: 8px 8px calc(14px + env(safe-area-inset-bottom));
+}
+.nav-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  background: none; border: 0; cursor: pointer; color: var(--op-light-green);
+  font-size: 11px; font-weight: 700; padding: 4px 0;
+}
+.nav-btn svg { width: 22px; height: 22px; padding: 4px 16px; box-sizing: content-box; border-radius: var(--op-radius-full); }
+.nav-btn.active { color: var(--op-accent-lime); }
+.nav-btn.active svg { background: var(--op-accent-lime); color: var(--op-dark-green); }
+
+/* ---------- Bottom sheets ---------- */
+.sheet-host { position: absolute; inset: 0; z-index: 50; display: flex; align-items: flex-end; }
+.scrim { position: absolute; inset: 0; background: rgba(2,56,25,.45); opacity: 0; transition: opacity .22s; }
+.sheet {
+  position: relative; width: 100%; max-height: 88%;
+  display: flex; flex-direction: column;
+  background: var(--op-white); border-radius: var(--op-radius-xl) var(--op-radius-xl) 0 0;
+  box-shadow: var(--op-elevation-3);
+  transform: translateY(100%); transition: transform .28s cubic-bezier(.2,.8,.2,1);
+}
+.sheet-tall { height: 92%; max-height: 92%; }
+.sheet-host.open .scrim { opacity: 1; }
+.sheet-host.open .sheet { transform: translateY(0); }
+
+.grabber { width: 40px; height: 4px; border-radius: 2px; background: var(--op-light-green); margin: 8px auto 0; flex-shrink: 0; }
+.sheet-head {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  padding: 12px 16px 12px; border-bottom: 1px solid var(--op-border-divider); flex-shrink: 0;
+}
+.sheet-head h2 { margin: 0; font-family: var(--op-font-display); font-weight: 600; font-size: 18px; color: var(--op-dark-green); }
+.sheet-sub { margin: 2px 0 0; font-size: 12px; color: var(--op-silver-light); }
+.sheet-head-id { display: flex; gap: 12px; align-items: center; min-width: 0; }
+.icon-btn {
+  width: 36px; height: 36px; border-radius: var(--op-radius-md); flex-shrink: 0;
+  background: var(--op-chip-neutral-bg); border: 0; color: var(--op-dark-green); cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.icon-btn svg { width: 18px; height: 18px; }
+.sheet-body { flex: 1; overflow-y: auto; padding: 20px 16px 8px; }
+.sheet-foot {
+  display: flex; gap: 10px; padding: 12px 16px calc(16px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--op-border-divider); flex-shrink: 0;
+}
+.sheet-foot .btn { flex: 1; }
+
+/* Buttons */
+.btn {
+  font-family: var(--op-font-display); font-weight: 600; font-size: 14px;
+  border-radius: var(--op-radius-md); padding: 13px 18px; cursor: pointer; border: 0;
+}
+.btn-primary { background: var(--op-accent-lime); color: var(--op-dark-green); }
+.btn-primary:hover { background: var(--op-accent-lime-hover); }
+.btn-solid { background: var(--op-dark-green); color: var(--op-accent-lime); }
+.btn-solid:hover { background: #03571f; }
+.btn-outline { background: var(--op-white); border: 1.5px solid var(--op-dark-green); color: var(--op-dark-green); }
+.btn-outline:hover { background: var(--op-dark-green); color: var(--op-accent-lime); }
+.btn:disabled, .btn:disabled:hover { background: #8FA08C; color: var(--op-cream); border-color: #8FA08C; cursor: not-allowed; }
+
+/* ---------- Floating notched-label inputs ---------- */
+.field {
+  position: relative; display: flex; align-items: center; gap: 6px;
+  border: 1.5px solid var(--op-border-input); border-radius: var(--op-radius-md);
+  padding: 0 14px; min-height: 50px; margin-bottom: 18px; background: var(--op-white);
+  transition: border-color .12s, box-shadow .12s;
+}
+.field:hover { border-color: var(--op-dark-green); }
+.field:focus-within { border: 2px solid var(--op-dark-green); padding: 0 13.5px; box-shadow: var(--op-focus-ring); }
+.notch {
+  position: absolute; top: -8px; left: 11px; padding: 0 5px; background: var(--op-white);
+  font-size: 11px; color: var(--op-silver-light); line-height: 16px; pointer-events: none; white-space: nowrap;
+}
+.notch em { font-style: normal; opacity: .8; }
+.field:hover .notch, .field:focus-within .notch { color: var(--op-dark-green); }
+.field input, .field select, .field textarea {
+  flex: 1; min-width: 0; width: 100%; border: 0; outline: none; background: transparent;
+  font: inherit; font-size: 15px; color: var(--op-dark-green); padding: 14px 0;
+}
+.field textarea { resize: none; line-height: 1.4; }
+.field input::placeholder, .field textarea::placeholder { color: var(--op-silver-light); }
+.field .prefix { color: var(--op-dark-green); font-weight: 700; font-size: 14px; }
+.field-phone .prefix { padding-right: 8px; border-right: 1px solid var(--op-border-card); }
+.field-select { padding-right: 36px; }
+.field-select select { appearance: none; -webkit-appearance: none; cursor: pointer; }
+.field-select select:invalid, .field-select select.placeholder { color: var(--op-silver-light); }
+.field-select::after {
+  content: ""; position: absolute; right: 16px; top: 50%; width: 8px; height: 8px; margin-top: -6px;
+  border-right: 2px solid var(--op-dark-green); border-bottom: 2px solid var(--op-dark-green); transform: rotate(45deg);
+  pointer-events: none;
+}
+.field.has-error { border: 2px solid var(--op-error); padding: 0 13.5px; }
+.field.has-error .notch { color: var(--op-error); }
+.field .err { position: absolute; left: 2px; bottom: -17px; font-size: 11.5px; color: var(--op-error); }
+.field.is-disabled { background: var(--op-chip-neutral-bg); border-color: var(--op-border-card); }
+.field.is-disabled .notch { background: linear-gradient(var(--op-white) 50%, var(--op-chip-neutral-bg) 50%); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.picker-field { padding: 0; }
+.picker-field:focus-within { padding: 0; }
+.picker-btn {
+  flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: none; border: 0; padding: 14px; min-height: 47px; cursor: pointer; text-align: left;
+  font-size: 15px; color: var(--op-silver-light);
+}
+.picker-btn.has-value { color: var(--op-dark-green); }
+.picker-btn svg { width: 18px; height: 18px; color: var(--op-dark-green); flex-shrink: 0; }
+.picker-btn:disabled { cursor: not-allowed; }
+.picker-btn:disabled svg { color: var(--op-silver-light); }
+.picker-btn .pv { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.picker-btn .pv span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.inline-panel {
+  background: #F4F6EF; border: 1px solid var(--op-border-card); border-radius: var(--op-radius-lg);
+  padding: 12px 12px 2px; margin: -6px 0 18px;
+}
+.inline-panel .field .notch { background: var(--op-white); }
+.inline-panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.inline-panel-head .link { font-size: 12px; }
+.hint { font-size: 12px; color: var(--op-silver-light); margin: -8px 0 12px; }
+
+/* Picker list */
+.picker-body { padding-top: 12px; }
+.search-sticky { position: sticky; top: 0; z-index: 1; }
+.picker-list { display: grid; }
+.pick {
+  display: flex; align-items: center; gap: 12px; padding: 12px 4px; text-align: left;
+  background: none; border: 0; border-bottom: 1px solid var(--op-border-divider); cursor: pointer;
+}
+.pick:active { background: var(--op-chip-neutral-bg); }
+.pick .row-main { flex: 1; }
+.pick-check { width: 20px; height: 20px; color: var(--op-dark-green); }
+.pick-create {
+  border: 1.5px dashed var(--op-dark-green); border-radius: var(--op-radius-lg);
+  padding: 12px; margin-bottom: 8px; background: #F4F6EF;
+}
+.pick-create .plus {
+  width: 34px; height: 34px; border-radius: 9px; background: var(--op-dark-green); color: var(--op-accent-lime);
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.pick-create .plus svg { width: 18px; height: 18px; }
+.picker-empty { padding: 20px 4px; color: var(--op-silver-light); font-size: 13px; }
+
+/* Deal detail */
+.detail-hero { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 18px; }
+.detail-hero .kpi-label { display: block; margin-bottom: 4px; }
+.detail-value { font-family: var(--op-font-display); font-weight: 600; font-size: 28px; color: var(--op-chip-warning-text); letter-spacing: -.01em; }
+
+.stepper { display: grid; grid-template-columns: repeat(5, 1fr); margin: 0 -4px 20px; position: relative; }
+.step {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative;
+  background: none; border: 0; padding: 0 2px; cursor: pointer; text-align: center;
+  font-size: 10.5px; font-weight: 700; color: var(--op-silver-light); line-height: 1.2;
+}
+.step::before {
+  content: ""; position: absolute; top: 13px; right: 50%; width: 100%; height: 2px; background: var(--op-light-green); z-index: 0;
+}
+.step:first-child::before { display: none; }
+.step.done::before, .step.current::before { background: var(--op-dark-green); }
+.step-dot {
+  position: relative; z-index: 1; width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--op-white); border: 1.5px solid var(--op-border-input); color: var(--op-silver-light);
+  font-family: var(--op-font-display); font-size: 12px;
+}
+.step-dot svg { width: 14px; height: 14px; }
+.step.done { color: var(--op-dark-green); }
+.step.done .step-dot { background: var(--op-dark-green); border-color: var(--op-dark-green); color: var(--op-accent-lime); }
+.step.current { color: var(--op-dark-green); }
+.step.current .step-dot { background: var(--op-accent-lime); border: 2px solid var(--op-dark-green); color: var(--op-dark-green); }
+
+.section-title {
+  margin: 0 0 8px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--op-silver-light);
+}
+.info-card {
+  border: 1px solid var(--op-border-card); border-radius: var(--op-radius-lg); padding: 4px 14px; margin-bottom: 18px;
+}
+.info-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--op-border-divider); }
+.info-row:last-child { border-bottom: 0; }
+.info-row dt { font-size: 12px; color: var(--op-silver-light); }
+.info-row dd { margin: 0; font-weight: 700; color: var(--op-dark-green); text-align: right; font-size: 13px; }
+.owner-chip {
+  display: flex; align-items: center; gap: 10px; background: #F4F6EF; border: 1px solid rgba(2,56,25,.1);
+  border-radius: 10px; padding: 9px 12px; margin-bottom: 18px;
+}
+.owner-chip b { display: block; color: var(--op-dark-green); font-size: 14px; }
+.owner-chip small { color: var(--op-silver-light); font-size: 12px; }
+.owner-chip .row-actions { margin-left: auto; }
+
+
+/* Outcome */
+.outcome-options { display: grid; gap: 10px; margin-bottom: 20px; }
+.outcome-card {
+  display: flex; gap: 12px; align-items: center; cursor: pointer;
+  border: 1.5px solid var(--op-border-input); border-radius: var(--op-radius-lg); padding: 14px;
+}
+.outcome-card input { position: absolute; opacity: 0; pointer-events: none; }
+.outcome-card b { display: block; font-family: var(--op-font-display); font-weight: 600; color: var(--op-dark-green); }
+.outcome-card small { color: var(--op-silver-light); font-size: 12px; }
+.radio { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--op-dark-green); flex-shrink: 0; position: relative; }
+.outcome-card:has(input:checked) { border: 2px solid var(--op-dark-green); background: #F4F6EF; }
+.outcome-card input:checked + .radio { background: var(--op-accent-lime); border-color: var(--op-dark-green); }
+.outcome-card input:checked + .radio::after { content: ""; position: absolute; inset: 6px; border-radius: 50%; background: var(--op-dark-green); }
+.outcome-card input:focus-visible + .radio { box-shadow: var(--op-focus-ring); }
+
+/* Toast */
+.toast {
+  position: absolute; left: 16px; right: 16px; bottom: 92px; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  background: var(--op-dark-green); color: var(--op-cream); border-radius: var(--op-radius-lg);
+  padding: 12px 14px; box-shadow: var(--op-elevation-hero); font-size: 13px; line-height: 1.4;
+  animation: toastIn .22s ease-out;
+}
+.toast button {
+  background: none; border: 0; color: var(--op-accent-lime); font-weight: 700; cursor: pointer;
+  border-bottom: 1.5px solid var(--op-accent-lime); padding: 0; flex-shrink: 0;
+}
+@keyframes toastIn { from { transform: translateY(12px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* New-deal form sections + existing/new switch */
+.form-section {
+  display: flex; align-items: center; gap: 8px; margin: 4px 0 12px;
+  font-family: var(--op-font-display); font-weight: 600; font-size: 15px; color: var(--op-dark-green);
+}
+.form-section:not(:first-child) { margin-top: 8px; padding-top: 18px; border-top: 1px solid var(--op-border-divider); }
+.seg {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 18px;
+  background: var(--op-chip-neutral-bg); border-radius: var(--op-radius-md); padding: 4px;
+}
+.seg button {
+  border: 0; background: transparent; border-radius: var(--op-radius-sm); padding: 9px 8px; cursor: pointer;
+  font-family: var(--op-font-display); font-weight: 600; font-size: 13px; color: var(--op-dark-green);
+}
+.seg button.active { background: var(--op-dark-green); color: var(--op-accent-lime); box-shadow: var(--op-elevation-1); }
+.seg button:disabled { color: var(--op-silver-light); cursor: not-allowed; }
+
+/* Horizontal scrollers (KPIs, stage strip): arrows, wheel and drag so they
+   scroll with a mouse as well as by swiping. */
+.hscroll { position: relative; }
+.hscroll > .kpis, .hscroll > .stage-strip { cursor: grab; scrollbar-width: thin; scrollbar-color: var(--op-light-green) transparent; }
+.hscroll > .kpis::-webkit-scrollbar, .hscroll > .stage-strip::-webkit-scrollbar { display: block; height: 4px; }
+.hscroll > .kpis::-webkit-scrollbar-thumb, .hscroll > .stage-strip::-webkit-scrollbar-thumb { background: var(--op-light-green); border-radius: 2px; }
+.hscroll.dragging > * { cursor: grabbing; user-select: none; }
+.hscroll.dragging .kpis, .hscroll.dragging .stage-strip { scroll-snap-type: none; }
+.hs-btn {
+  position: absolute; top: 50%; z-index: 2; margin-top: -20px;
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  background: var(--op-white); color: var(--op-dark-green);
+  border: 1.5px solid var(--op-dark-green); box-shadow: var(--op-elevation-2);
+  transition: opacity .15s, background .15s;
+}
+.hs-btn svg { width: 16px; height: 16px; }
+.hs-btn:hover { background: var(--op-dark-green); color: var(--op-accent-lime); }
+.hs-prev { left: -8px; }
+.hs-next { right: -8px; }
+.hs-btn.off { opacity: 0; pointer-events: none; }
+
+/* Stage dropdown on deal cards */
+.foot-left { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.stage-select {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--op-white); border: 1.5px solid var(--op-dark-green); color: var(--op-dark-green);
+  border-radius: var(--op-radius-md); padding: 6px 8px 6px 10px; cursor: pointer;
+  font-family: var(--op-font-display); font-weight: 600; font-size: 12px; white-space: nowrap;
+}
+.stage-select .chev { width: 14px; height: 14px; transition: transform .15s; }
+.stage-select[aria-expanded="true"] { background: var(--op-dark-green); color: var(--op-accent-lime); }
+.stage-select[aria-expanded="true"] .chev { transform: rotate(180deg); }
+.stage-dot { width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(2,56,25,.25); }
+.stage-menu {
+  position: absolute; z-index: 40; width: 220px;
+  background: var(--op-white); border: 1px solid var(--op-border-card); border-radius: var(--op-radius-lg);
+  box-shadow: var(--op-elevation-3); padding: 6px; animation: menuIn .14s ease-out;
+}
+@keyframes menuIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.stage-menu-head { margin: 4px 8px 6px; font-size: 11px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--op-silver-light); }
+.stage-opt {
+  width: 100%; display: flex; align-items: center; gap: 10px; text-align: left;
+  background: none; border: 0; border-radius: var(--op-radius-md); padding: 9px 8px; cursor: pointer;
+  font-family: var(--op-font-display); font-weight: 600; font-size: 13px; color: var(--op-dark-green);
+}
+.stage-opt:hover, .stage-opt:focus-visible { background: var(--op-chip-neutral-bg); outline: none; }
+.stage-opt.current { background: #F4F6EF; cursor: default; }
+.stage-opt-name { flex: 1; display: flex; flex-direction: column; }
+.stage-opt-name small { font-family: var(--op-font-body); font-weight: 400; font-size: 11px; color: var(--op-silver-light); }
+
+/* Contact card in deal detail */
+.contact-card { border: 1px solid var(--op-border-card); border-radius: var(--op-radius-lg); padding: 4px 14px; margin-bottom: 18px; background: #F4F6EF; }
+.contact-head { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--op-border-divider); }
+.contact-head b { display: block; color: var(--op-dark-green); font-size: 14px; }
+.contact-head small { color: var(--op-silver-light); font-size: 12px; }
+.contact-line { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--op-border-divider); }
+.contact-line:last-child { border-bottom: 0; }
+.contact-ico { width: 18px; height: 18px; color: var(--op-silver-light); flex-shrink: 0; }
+.contact-ico svg { width: 18px; height: 18px; }
+.contact-val { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.contact-val small { font-size: 11px; color: var(--op-silver-light); }
+.contact-val span { font-weight: 700; color: var(--op-dark-green); font-size: 14px; overflow-wrap: anywhere; user-select: text; }
+
+.deal-count {
+  display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;
+  border: 1px solid var(--op-border-card); border-radius: var(--op-radius-lg); padding: 14px;
+}
+.deal-count span { width: 100%; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--op-silver-light); }
+.deal-count b { font-family: var(--op-font-display); font-weight: 600; font-size: 28px; color: var(--op-dark-green); line-height: 1; }
+.deal-count small { font-size: 13px; color: var(--op-silver-light); }
+
+/* Deals only move forward */
+.stage-select.is-final { cursor: default; border-color: var(--op-border-card); background: var(--op-chip-neutral-bg); }
+.stage-opt.past { color: var(--op-silver-light); cursor: not-allowed; }
+.stage-opt.past .stage-num { background: var(--op-light-green); color: var(--op-dark-green); }
+.stage-opt.past:hover { background: none; }
+.step:disabled { cursor: default; }
+
+/* Closed = Won or Lost */
+.stage-select.is-final svg { width: 12px; height: 12px; }
+.stage-select.outcome-won { background: var(--op-chip-success-bg); color: var(--op-chip-success-text); border-color: transparent; }
+.stage-select.outcome-lost { background: var(--op-chip-error-bg); color: var(--op-chip-error-text); border-color: transparent; }
+.stage-opt .stage-num svg { width: 11px; height: 11px; }
+.stage-opt.opt-won .stage-num { background: var(--op-success); }
+.stage-opt.opt-lost .stage-num { background: var(--op-chip-error-text); }
+
+/* Move sheet + comments */
+.move-path { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+.move-path svg { width: 16px; height: 16px; color: var(--op-dark-green); }
+.move-path .chip { font-size: 12px; padding: 5px 10px; }
+.comments { list-style: none; margin: 0 0 18px; padding: 0; display: grid; gap: 10px; }
+.comment { border: 1px solid var(--op-border-card); border-radius: var(--op-radius-lg); padding: 12px 14px; }
+.comment-head { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.comment-head b { color: var(--op-dark-green); }
+.comment-head .muted { margin-left: auto; }
+.comment-move { margin: 8px 0 4px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #2f6b1e; }
+.comment-text { margin: 0; line-height: 1.5; color: var(--op-silver-dark); }
+.comment-text.muted { font-style: italic; }
+.comments-empty { margin: 0 0 18px; }
+#dealSheet .sheet-body { padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+
+/* Deal stage status (deal detail) */
+.stage-status { border: 1px solid var(--op-border-card); border-radius: var(--op-radius-lg); padding: 12px 14px; margin-bottom: 18px; }
+.stage-status-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
+.stage-pill {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: var(--op-radius-full);
+  background: var(--op-accent-lime); color: var(--op-dark-green);
+  font-family: var(--op-font-display); font-weight: 600; font-size: 14px;
+}
+.stage-status.is-won .stage-pill { background: var(--op-chip-success-bg); color: var(--op-chip-success-text); }
+.stage-status.is-lost .stage-pill { background: var(--op-chip-error-bg); color: var(--op-chip-error-text); }
+
+/* Activities */
+.section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.section-head .section-title { margin: 0; }
+.btn-sm {
+  display: inline-flex; align-items: center; gap: 4px; cursor: pointer;
+  background: var(--op-dark-green); color: var(--op-accent-lime); border: 0; border-radius: var(--op-radius-md);
+  padding: 7px 12px 7px 9px; font-family: var(--op-font-display); font-weight: 600; font-size: 12px;
+}
+.btn-sm svg { width: 14px; height: 14px; }
+.btn-sm:hover { background: #03571f; }
+.activity-list { list-style: none; margin: 0 0 18px; padding: 0; display: grid; gap: 10px; }
+.activity {
+  display: flex; gap: 12px; background: var(--op-white);
+  border: 1px solid var(--op-border-card); border-radius: var(--op-radius-lg); padding: 12px 14px;
+}
+.activity.is-link { cursor: pointer; box-shadow: var(--op-elevation-1); }
+.activity.is-link:active { box-shadow: var(--op-elevation-3); }
+.act-ico {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  background: var(--op-light-green); color: var(--op-dark-green);
+  display: flex; align-items: center; justify-content: center;
+}
+.act-ico svg { width: 17px; height: 17px; }
+.act-main { flex: 1; min-width: 0; }
+.act-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.act-top b { font-family: var(--op-font-display); font-weight: 600; font-size: 14px; color: var(--op-dark-green); }
+.act-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px; margin-top: 4px; font-size: 12px; color: var(--op-silver-light); }
+.act-comment { margin: 8px 0 4px; line-height: 1.5; color: var(--op-silver-dark); }
+.seg-3 { grid-template-columns: repeat(3, 1fr); }
+.deal-chip-row {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  background: #F4F6EF; border: 1px solid var(--op-border-card); border-radius: var(--op-radius-lg); padding: 10px 12px;
+}
+.deal-chip-row b { display: block; color: var(--op-dark-green); }
+.deal-chip-row small { color: var(--op-silver-light); font-size: 12px; }
+#acStageHint { margin: -6px 0 16px; }
+
+/* Stage filter dropdown */
+.stage-filter { margin-bottom: 14px; background: var(--op-white); }
+.stage-filter select { font-family: var(--op-font-display); font-weight: 600; font-size: 14px; }
+
+#screen-activity .stage-filter { margin-top: 10px; }
+
+/* Pagination */
+.pager { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; }
+.pager-btn {
+  display: inline-flex; align-items: center; gap: 4px; cursor: pointer;
+  background: var(--op-white); border: 1.5px solid var(--op-dark-green); color: var(--op-dark-green);
+  border-radius: var(--op-radius-md); padding: 8px 12px; font-family: var(--op-font-display); font-weight: 600; font-size: 13px;
+}
+.pager-btn svg { width: 14px; height: 14px; transform: rotate(90deg); }
+.pager-btn.next svg { transform: rotate(-90deg); }
+.pager-btn:hover:not(:disabled) { background: var(--op-dark-green); color: var(--op-accent-lime); }
+.pager-btn:disabled { border-color: var(--op-border-card); color: var(--op-silver-light); cursor: not-allowed; }
+.pager-info { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.pager-info b { font-family: var(--op-font-display); font-weight: 600; font-size: 13px; color: var(--op-dark-green); }
+.pager-info small { font-size: 11px; color: var(--op-silver-light); }
+
+/* A deal's activity list scrolls on its own once it gets long */
+.deal-acts { max-height: 440px; overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; margin-bottom: 0;
+  scrollbar-width: thin; scrollbar-color: var(--op-light-green) transparent; }
+.deal-acts + .pager { margin-bottom: 18px; }
+.deal-acts:last-child { margin-bottom: 18px; }
+
+</style>
+</head>
+<body>
+  <div class="demo">
+    <!-- Desktop-only guide beside the phone -->
+    <aside class="brief">
+      <p class="eyebrow">OnePort365 · CRM mobile</p>
+      <h1>Clickthrough prototype</h1>
+      <p class="brief-lede">Tap through the phone, or jump straight into a flow:</p>
+      <ol class="flows">
+        <li><button type="button" data-flow="move"><span>01</span>View the pipeline and move a deal to a later stage</button></li>
+        <li><button type="button" data-flow="deal"><span>02</span>Add a deal, creating a new company and contact on the way</button></li>
+        <li><button type="button" data-flow="company"><span>03</span>Add a company</button></li>
+        <li><button type="button" data-flow="activity"><span>04</span>Log an activity on a deal</button></li>
+      </ol>
+      <button type="button" class="link" id="resetBtn">Reset sample data</button>
+    </aside>
+
+    <div class="phone" id="phone">
+      <div class="statusbar" aria-hidden="true">
+        <span>9:41</span>
+        <span class="status-icons">
+          <svg viewBox="0 0 18 12"><path d="M1 11h2V8H1zm4 0h2V6H5zm4 0h2V3H9zm4 0h2V0h-2z" fill="currentColor"/></svg>
+          <svg viewBox="0 0 26 12"><rect x=".5" y=".5" width="22" height="11" rx="3" fill="none" stroke="currentColor"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="currentColor"/><rect x="24" y="4" width="1.5" height="4" rx=".7" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <header class="appbar">
+        <div class="appbar-title">
+          <span class="crm-badge">CRM</span>
+          <h1 id="screenTitle">Pipeline</h1>
+        </div>
+        <div class="appbar-right">
+          <span class="brand">OnePort<b>365</b></span>
+          <span class="avatar avatar-1 avatar-sm" title="You">NK</span>
+        </div>
+      </header>
+
+      <div class="screens" id="screens">
+        <!-- PIPELINE -->
+        <section class="screen" id="screen-pipeline" data-title="Pipeline">
+          <label class="search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input type="search" id="dealSearch" placeholder="Search company, owner or contact…" autocomplete="off" />
+          </label>
+
+          <label class="field field-select stage-filter">
+            <span class="notch">Deal stage</span>
+            <select id="stageFilter" aria-label="Filter by deal stage"></select>
+          </label>
+          <p class="list-summary" id="stageSummary"></p>
+          <div class="card-list" id="dealList"></div>
+          <nav class="pager" id="pager-deals" aria-label="Pages" hidden></nav>
+        </section>
+
+        <!-- COMPANIES -->
+        <section class="screen" id="screen-companies" data-title="Companies" hidden>
+          <p class="list-summary" id="companySummary"></p>
+          <label class="search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input type="search" id="companySearch" placeholder="Search companies…" autocomplete="off" />
+          </label>
+          <div class="row-list" id="companyList"></div>
+          <nav class="pager" id="pager-companies" aria-label="Pages" hidden></nav>
+        </section>
+
+        <!-- ACTIVITY -->
+        <section class="screen" id="screen-activity" data-title="Activity" hidden>
+          <label class="field field-select stage-filter">
+            <span class="notch">Deal owner</span>
+            <select id="ownerFilter" aria-label="Filter activities by deal owner"></select>
+          </label>
+          <ol class="activity-list" id="activityList"></ol>
+          <nav class="pager" id="pager-activity" aria-label="Pages" hidden></nav>
+        </section>
+      </div>
+
+      <button type="button" class="fab" id="fab">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <span id="fabLabel">New deal</span>
+      </button>
+
+      <nav class="bottomnav" aria-label="CRM sections">
+        <button type="button" class="nav-btn active" data-screen="pipeline">
+          <svg viewBox="0 0 24 24"><path d="M4 19V9M12 19V5M20 19v-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          <span>Pipeline</span>
+        </button>
+        <button type="button" class="nav-btn" data-screen="companies">
+          <svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V6l7-3 7 3v15M9 9h1M14 9h1M9 13h1M14 13h1M9 17h1M14 17h1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          <span>Companies</span>
+        </button>
+        <button type="button" class="nav-btn" data-screen="activity">
+          <svg viewBox="0 0 24 24"><path d="M4 12h4l2-7 4 14 2-7h4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Activity</span>
+        </button>
+      </nav>
+
+      <!-- ============ SHEETS ============ -->
+
+      <!-- Deal detail -->
+      <div class="sheet-host" id="dealSheet" hidden>
+        <div class="scrim" data-close></div>
+        <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="dealSheetTitle">
+          <div class="grabber"></div>
+          <header class="sheet-head">
+            <div>
+              <h2 id="dealSheetTitle">Deal</h2>
+              <p class="sheet-sub" id="dealSheetSub"></p>
+            </div>
+            <button type="button" class="icon-btn" data-close aria-label="Close">
+              <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </header>
+          <div class="sheet-body" id="dealSheetBody"></div>
+        </section>
+      </div>
+
+      <!-- Close-out (won / lost) -->
+      <div class="sheet-host" id="outcomeSheet" hidden>
+        <div class="scrim" data-close></div>
+        <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="outcomeTitle">
+          <div class="grabber"></div>
+          <header class="sheet-head">
+            <div>
+              <h2 id="outcomeTitle">Move deal</h2>
+              <p class="sheet-sub" id="outcomeSub"></p>
+            </div>
+            <button type="button" class="icon-btn" data-close aria-label="Close">
+              <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </header>
+          <div class="sheet-body">
+            <div class="move-path" id="movePath"></div>
+            <div class="outcome-options" id="outcomeOptions" role="radiogroup" aria-label="Outcome">
+              <label class="outcome-card"><input type="radio" name="outcome" value="won" /><span class="radio"></span><span><b>Won</b><small>Customer accepted the quote</small></span></label>
+              <label class="outcome-card"><input type="radio" name="outcome" value="lost" /><span class="radio"></span><span><b>Lost</b><small>Deal didn't go ahead</small></span></label>
+            </div>
+            <label class="field">
+              <span class="notch" id="moveCommentLabel">Comment <em>optional</em></span>
+              <textarea id="moveComment" rows="3" placeholder="e.g. Called the client, they want a quote by Friday"></textarea>
+            </label>
+          </div>
+          <footer class="sheet-foot">
+            <button type="button" class="btn btn-outline" data-close>Cancel</button>
+            <button type="button" class="btn btn-primary" id="outcomeConfirm">Move deal</button>
+          </footer>
+        </section>
+      </div>
+
+      <!-- New deal -->
+      <div class="sheet-host" id="newDealSheet" hidden>
+        <div class="scrim" data-close></div>
+        <section class="sheet sheet-tall" role="dialog" aria-modal="true" aria-labelledby="newDealTitle">
+          <div class="grabber"></div>
+          <header class="sheet-head">
+            <div>
+              <h2 id="newDealTitle">Create new deal</h2>
+              <p class="sheet-sub">Add a new opportunity to the pipeline</p>
+            </div>
+            <button type="button" class="icon-btn" data-close aria-label="Close">
+              <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </header>
+          <form class="sheet-body" id="newDealForm" novalidate>
+            <p class="form-section"><span class="stage-num">1</span>Company</p>
+            <div class="seg" role="radiogroup" aria-label="Company">
+              <button type="button" role="radio" data-seg="company" data-val="existing">Existing company</button>
+              <button type="button" role="radio" data-seg="company" data-val="new">+ New company</button>
+            </div>
+            <div class="field picker-field" id="ndCoExisting">
+              <span class="notch">Company *</span>
+              <button type="button" class="picker-btn" id="ndCompanyBtn"><span>Search companies…</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></button>
+            </div>
+            <div id="ndNewCompany" hidden>
+              <label class="field"><span class="notch">Company name *</span><input type="text" id="ndCoName" placeholder="Name" /></label>
+              <label class="field"><span class="notch">Email address</span><input type="email" id="ndCoEmail" placeholder="company@example.com" /><small class="err"></small></label>
+              <label class="field"><span class="notch">Industry *</span><input type="text" id="ndCoIndustry" placeholder="Ex. Technology" /></label>
+            </div>
+
+            <p class="form-section"><span class="stage-num">2</span>Contact</p>
+            <div class="seg" role="radiogroup" aria-label="Contact">
+              <button type="button" role="radio" data-seg="contact" data-val="existing">Existing contact</button>
+              <button type="button" role="radio" data-seg="contact" data-val="new">+ New contact</button>
+            </div>
+            <p class="hint" id="ndContactHint" hidden>A new company needs a new contact.</p>
+            <div class="field picker-field" id="ndContactField">
+              <span class="notch">Contact *</span>
+              <button type="button" class="picker-btn" id="ndContactBtn" disabled><span>Select a company first</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></button>
+            </div>
+            <div id="ndNewContact" hidden>
+              <div class="field-row">
+                <label class="field"><span class="notch">First name *</span><input type="text" id="ndCtFirst" placeholder="First name" /></label>
+                <label class="field"><span class="notch">Last name *</span><input type="text" id="ndCtLast" placeholder="Last name" /></label>
+              </div>
+              <label class="field"><span class="notch">Title</span><input type="text" id="ndCtTitle" placeholder="e.g. Procurement Manager" /></label>
+              <label class="field field-phone"><span class="notch">Phone number *</span><span class="prefix">+234</span><input type="tel" id="ndCtPhone" inputmode="tel" placeholder="803 000 0000" /></label>
+              <label class="field"><span class="notch">Email *</span><input type="email" id="ndCtEmail" placeholder="email@example.com" /><small class="err"></small></label>
+            </div>
+
+            <p class="form-section"><span class="stage-num">3</span>Deal details</p>
+            <label class="field field-money">
+              <span class="notch">Deal value (USD) <em>optional</em></span>
+              <span class="prefix">$</span>
+              <input type="text" id="ndValue" inputmode="decimal" placeholder="Amount" />
+            </label>
+
+            <div class="field-row">
+              <label class="field field-select"><span class="notch">Class *</span>
+                <select id="ndClass"><option value="">Select class</option></select>
+              </label>
+              <label class="field field-select"><span class="notch">Product *</span>
+                <select id="ndProduct"></select>
+              </label>
+            </div>
+            <label class="field field-select"><span class="notch">Owner *</span>
+              <select id="ndOwner"><option value="">Select owner</option></select>
+            </label>
+          </form>
+          <footer class="sheet-foot">
+            <button type="button" class="btn btn-outline" data-close>Cancel</button>
+            <button type="submit" form="newDealForm" class="btn btn-primary" id="ndSubmit" disabled>Create deal</button>
+          </footer>
+        </section>
+      </div>
+
+      <!-- Add company -->
+      <div class="sheet-host" id="companySheet" hidden>
+        <div class="scrim" data-close></div>
+        <section class="sheet sheet-tall" role="dialog" aria-modal="true" aria-labelledby="companyTitle">
+          <div class="grabber"></div>
+          <header class="sheet-head">
+            <div>
+              <h2 id="companyTitle">Add company</h2>
+              <p class="sheet-sub">Register a customer account and its main contact</p>
+            </div>
+            <button type="button" class="icon-btn" data-close aria-label="Close">
+              <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </header>
+          <form class="sheet-body" id="companyForm" novalidate>
+            <p class="form-section"><span class="stage-num">1</span>Company</p>
+            <label class="field"><span class="notch">Company name *</span><input type="text" id="coName" placeholder="Name" /></label>
+            <label class="field"><span class="notch">Email address</span><input type="email" id="coEmail" placeholder="company@example.com" /><small class="err"></small></label>
+            <label class="field"><span class="notch">Company address</span><textarea id="coAddress" rows="2" placeholder="Street, city, country"></textarea></label>
+            <label class="field"><span class="notch">Industry *</span><input type="text" id="coIndustry" placeholder="Ex. Technology" /></label>
+            <label class="field field-select"><span class="notch">Class tier *</span><select id="coTier"></select></label>
+            <label class="field field-select"><span class="notch">Owner *</span><select id="coOwner"><option value="">Select owner</option></select></label>
+
+            <p class="form-section"><span class="stage-num">2</span>Contact</p>
+            <div class="field-row">
+              <label class="field"><span class="notch">First name *</span><input type="text" id="coCtFirst" placeholder="First name" /></label>
+              <label class="field"><span class="notch">Last name *</span><input type="text" id="coCtLast" placeholder="Last name" /></label>
+            </div>
+            <label class="field"><span class="notch">Title</span><input type="text" id="coCtTitle" placeholder="e.g. Procurement Manager" /></label>
+            <label class="field field-phone"><span class="notch">Phone number *</span><span class="prefix">+234</span><input type="tel" id="coCtPhone" inputmode="tel" placeholder="803 000 0000" /></label>
+            <label class="field"><span class="notch">Email *</span><input type="email" id="coCtEmail" placeholder="email@example.com" /><small class="err"></small></label>
+          </form>
+          <footer class="sheet-foot">
+            <button type="button" class="btn btn-outline" data-close>Cancel</button>
+            <button type="submit" form="companyForm" class="btn btn-primary" id="coSubmit" disabled>Add company</button>
+          </footer>
+        </section>
+      </div>
+
+      <!-- Deal activities (opened from the Activity tab): stage + activities only -->
+      <div class="sheet-host" id="dealActSheet" hidden>
+        <div class="scrim" data-close></div>
+        <section class="sheet sheet-tall" role="dialog" aria-modal="true" aria-labelledby="daTitle">
+          <div class="grabber"></div>
+          <header class="sheet-head">
+            <div>
+              <h2 id="daTitle">Deal</h2>
+              <p class="sheet-sub" id="daSub"></p>
+            </div>
+            <button type="button" class="icon-btn" data-close aria-label="Close">
+              <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </header>
+          <div class="sheet-body" id="daBody"></div>
+        </section>
+      </div>
+
+      <!-- Add activity -->
+      <div class="sheet-host" id="activitySheet" hidden>
+        <div class="scrim" data-close></div>
+        <section class="sheet sheet-tall" role="dialog" aria-modal="true" aria-labelledby="activityTitle">
+          <div class="grabber"></div>
+          <header class="sheet-head">
+            <div>
+              <h2 id="activityTitle">Add activity</h2>
+              <p class="sheet-sub">Enter the details below to add a new activity</p>
+            </div>
+            <button type="button" class="icon-btn" data-close aria-label="Close">
+              <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </header>
+          <form class="sheet-body" id="activityForm" novalidate>
+            <div class="field picker-field" id="acDealField">
+              <span class="notch">Deal *</span>
+              <button type="button" class="picker-btn" id="acDealBtn"><span>Search deals…</span><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg></button>
+            </div>
+            <div class="deal-chip-row" id="acDealFixed" hidden></div>
+            <p class="hint" id="acStageHint" hidden></p>
+            <label class="field field-select"><span class="notch">Meeting type *</span>
+              <select id="acType">
+                <option value="Call">Call</option>
+                <option value="In-person Meeting">In-person Meeting</option>
+                <option value="Email">Email</option>
+                <option value="TBD">TBD</option>
+              </select>
+            </label>
+            <div class="field-row">
+              <label class="field"><span class="notch">Date *</span><input type="date" id="acDate" /></label>
+              <label class="field"><span class="notch">Time *</span><input type="time" id="acTime" /></label>
+            </div>
+            <label class="field"><span class="notch">Duration (minutes) *</span><input type="number" id="acDuration" min="1" inputmode="numeric" placeholder="Eg 30" /></label>
+            <label class="field"><span class="notch">Activity comment *</span><textarea id="acComment" rows="3" placeholder="Add a comment"></textarea></label>
+          </form>
+          <footer class="sheet-foot">
+            <button type="button" class="btn btn-outline" data-close>Cancel</button>
+            <button type="submit" form="activityForm" class="btn btn-primary" id="acSubmit" disabled>Save activity</button>
+          </footer>
+        </section>
+      </div>
+
+      <!-- Company detail -->
+      <div class="sheet-host" id="companyDetailSheet" hidden>
+        <div class="scrim" data-close></div>
+        <section class="sheet sheet-tall" role="dialog" aria-modal="true" aria-labelledby="cdTitle">
+          <div class="grabber"></div>
+          <header class="sheet-head">
+            <div class="sheet-head-id" id="cdHead"></div>
+            <button type="button" class="icon-btn" data-close aria-label="Close">
+              <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </header>
+          <div class="sheet-body" id="cdBody"></div>
+          <footer class="sheet-foot">
+            <button type="button" class="btn btn-primary" id="cdNewDeal">New deal</button>
+          </footer>
+        </section>
+      </div>
+
+      <!-- Search picker (stacks on top of other sheets) -->
+      <div class="sheet-host" id="pickerSheet" hidden>
+        <div class="scrim" data-close></div>
+        <section class="sheet sheet-tall" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">
+          <div class="grabber"></div>
+          <header class="sheet-head">
+            <div><h2 id="pickerTitle">Select</h2></div>
+            <button type="button" class="icon-btn" data-close aria-label="Close">
+              <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </header>
+          <div class="sheet-body picker-body">
+            <label class="search search-sticky">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <input type="search" id="pickerSearch" placeholder="Search…" autocomplete="off" />
+            </label>
+            <div class="picker-list" id="pickerList" role="listbox"></div>
+          </div>
+        </section>
+      </div>
+
+      <div class="stage-menu" id="stageMenu" role="menu" aria-label="Deal stage" hidden></div>
+
+      <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+        <span id="toastMsg"></span>
+        <button type="button" id="toastUndo" hidden>Undo</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+(function () {
+  "use strict";
+
+  // ---------- Reference data ----------
+  var STAGES = [
+    { id: "prospect", name: "Prospect", bar: "var(--op-cat-1)" },
+    { id: "contacted", name: "Contacted", bar: "var(--op-cat-2)" },
+    { id: "qualified", name: "Qualified", bar: "var(--op-cat-3)" },
+    { id: "quote", name: "Quote issued", bar: "var(--op-cat-4)" },
+    { id: "closed", name: "Closed", bar: "var(--op-cat-5)" }
+  ];
+  var TIERS = ["SME", "Growth", "Enterprise"];
+  var PRODUCTS = ["FreightSaver", "Ocean freight", "Air freight", "Customs clearance", "Haulage"];
+  var OWNERS = ["Aishat Jimoh", "Kayode Akintade", "Deborah Oje", "Adeshewa Adelowotan", "Gift Osaremen"];
+
+  var ICON = {
+    arrow: '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    check: '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    cross: '<svg viewBox="0 0 24 24" width="10" height="10"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
+    chevron: '<svg viewBox="0 0 24 24" class="chev"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    plus: '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
+    phone: '<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>',
+    mail: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="2" fill="none"/></svg>',
+    building: '<svg viewBox="0 0 24 24" width="12" height="12"><path d="M3 21h18M5 21V6l7-3 7 3v15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'
+  };
+
+  // ---------- Sample data ----------
+  var state;
+  var seq = 1000;
+  function uid(p) { return p + (seq++); }
+
+  function seed() {
+    var co = [
+      ["Sterling bank", "customercare@sterling.ng", "Banking", "SME", "Aishat Jimoh"],
+      ["Kliqs consulting", "hello@kliqs.co", "Consulting", "Growth", "Aishat Jimoh"],
+      ["Limeswood", "info@limeswood.com", "Manufacturing", "Enterprise", "Deborah Oje"],
+      ["Micro press computers ltd", "info@micropressltd.com", "Technology", "SME", "Aishat Jimoh"],
+      ["Agventure commodities limited", "trade@agventure.ng", "Agro commodities", "SME", "Kayode Akintade"],
+      ["Cdk industries", "ops@cdkindustries.com", "Industrial", "SME", "Aishat Jimoh"],
+      ["Autochek", "logistics@autochek.africa", "Automotive", "SME", "Aishat Jimoh"],
+      ["Broadgrain africa", "info@broadgrain.africa", "Agro commodities", "Enterprise", "Kayode Akintade"],
+      ["Silver star", "admin@silverstar.ng", "Retail", "SME", "Adeshewa Adelowotan"],
+      ["Bejoice shipping", "ops@bejoiceshipping.com", "Shipping", "Growth", "Adeshewa Adelowotan"],
+      ["Goshen agro", "goshenagro@gmail.com", "Agriculture", "SME", "Adeshewa Adelowotan"],
+      ["Greenbles agtech", "greenblesagtech@gmail.com", "Agtech", "SME", "Gift Osaremen"]
+    ];
+    var companies = co.map(function (c) {
+      return { id: uid("co"), name: c[0], email: c[1], address: "Lagos, Nigeria", industry: c[2], tier: c[3], owner: c[4] };
+    });
+    function coId(name) { return companies.filter(function (c) { return c.name === name; })[0].id; }
+
+    var ct = [
+      ["Olivia", "Sanjo", "Sterling bank", "Head of Trade Services", "803 377 5043", "olivia.sanjo@sterling.ng"],
+      ["Tunde", "Bakare", "Kliqs consulting", "Operations Lead", "802 556 1180", "tunde@kliqs.co"],
+      ["Ifeoma", "Nwosu", "Limeswood", "Procurement Manager", "805 210 7741", "ifeoma@limeswood.com"],
+      ["Mr", "A", "Micro press computers ltd", "Director", "802 737 4120", "apressltd@yahoo.com"],
+      ["Michael", "Akamo", "Agventure commodities limited", "Export Manager", "703 256 0912", "m.akamo@agventure.ng"],
+      ["Francis", "Ifeajika", "Cdk industries", "Import & Export Manager", "806 423 3301", "francis.ifeajika@cdk.com"],
+      ["Mr", "Christain", "Autochek", "Logistics Manager", "803 370 9915", "christain@autochek.africa"],
+      ["Adebayo", "Samuel", "Broadgrain africa", "Procurement Manager", "803 055 1277", "s.adebayo@broadgrain.africa"],
+      ["Kemi", "Lawal", "Silver star", "Supply Chain Lead", "809 114 6650", "kemi@silverstar.ng"],
+      ["Chinedu", "Obi", "Bejoice shipping", "Commercial Manager", "813 772 0045", "chinedu@bejoiceshipping.com"],
+      ["Goshen", "Agro", "Goshen agro", "Owner", "703 256 0001", "goshenagro@gmail.com"],
+      ["Green", "Lab", "Greenbles agtech", "Founder", "807 562 4411", "greenblesagtech@gmail.com"]
+    ];
+    var contacts = ct.map(function (c) {
+      return { id: uid("ct"), first: c[0], last: c[1], companyId: coId(c[2]), title: c[3], phone: c[4], email: c[5] };
+    });
+    function ctFor(companyId) { return contacts.filter(function (c) { return c.companyId === companyId; })[0].id; }
+
+    var d = [
+      ["Sterling bank", 0, "SME", "prospect", "30-10-2026"],
+      ["Agventure commodities limited", 0, "SME", "prospect", "19-10-2026"],
+      ["Broadgrain africa", 0, "Enterprise", "prospect", "13-10-2026"],
+      ["Goshen agro", 1250, "SME", "prospect", "31-10-2026"],
+      ["Kliqs consulting", 0, "SME", "contacted", "29-10-2026"],
+      ["Kliqs consulting", 0, "SME", "contacted", "28-10-2026"],
+      ["Kliqs consulting", 0, "Enterprise", "contacted", "27-10-2026"],
+      ["Greenbles agtech", 2800, "SME", "contacted", "26-10-2026"],
+      ["Limeswood", 4200, "Enterprise", "qualified", "22-10-2026"],
+      ["Cdk industries", 3515, "SME", "qualified", "19-10-2026"],
+      ["Silver star", 6350, "SME", "qualified", "14-10-2026"],
+      ["Kliqs consulting", 19000, "Growth", "quote", "29-10-2026"],
+      ["Kliqs consulting", 3165, "Enterprise", "quote", "27-10-2026"],
+      ["Bejoice shipping", 7025, "Growth", "quote", "26-10-2026"],
+      ["Micro press computers ltd", 1900, "SME", "closed", "23-10-2026", "won"],
+      ["Autochek", 2550, "SME", "closed", "28-10-2026", "lost", "High rate and response time"],
+      ["Autochek", 2150, "SME", "closed", "21-10-2026", "won"]
+    ];
+    var deals = d.map(function (x, i) {
+      var cid = coId(x[0]);
+      var company = companies.filter(function (c) { return c.id === cid; })[0];
+      return {
+        id: uid("dl"), companyId: cid, contactId: ctFor(cid), value: x[1], tier: x[2],
+        product: PRODUCTS[i % PRODUCTS.length], owner: company.owner, stage: x[3], created: x[4],
+        outcome: x[5] || null, note: x[6] || ""
+      };
+    });
+
+    // Example comments left when deals were moved
+    deals.forEach(function (d) { d.comments = []; });
+    function addC(i, from, to, text, date, by, outcome) {
+      deals[i].comments.push({ from: from, to: to, outcome: outcome || null, text: text, date: date, by: by });
+    }
+    addC(4, "prospect", "contacted", "Intro call done. They ship 6 containers a month from Apapa.", "30-10-2026", "Aishat Jimoh");
+    addC(8, "contacted", "qualified", "Budget confirmed for Q4. Decision maker is the procurement manager.", "24-10-2026", "Deborah Oje");
+    addC(8, "prospect", "contacted", "Sent company profile and rate card.", "23-10-2026", "Deborah Oje");
+    addC(11, "qualified", "quote", "Quote sent for 40ft ocean freight, Lagos to Rotterdam.", "31-10-2026", "Aishat Jimoh");
+    addC(15, "quote", "closed", "High rate and response time", "29-10-2026", "Aishat Jimoh", "lost");
+    addC(14, "quote", "closed", "PO received. First shipment booked for next week.", "25-10-2026", "Aishat Jimoh", "won");
+
+    // Example activities, each logged against the deal's stage at the time
+    var activities = [];
+    function addA(i, stage, type, date, time, duration, comment, by) {
+      activities.push({ id: uid("ac"), dealId: deals[i].id, stage: stage, type: type, date: date, time: time, duration: duration, comment: comment, by: by });
+    }
+    addA(0, "prospect", "Call", "2026-11-06", "10:00", 30, "Discovery call to understand their import volumes.", "Aishat Jimoh");
+    addA(4, "contacted", "Email", "2026-10-30", "14:30", 15, "Sent company profile and FreightSaver brochure.", "Aishat Jimoh");
+    addA(8, "qualified", "In-person Meeting", "2026-10-24", "11:00", 60, "Site visit at their Ikeja warehouse. Confirmed Q4 budget.", "Deborah Oje");
+    addA(8, "qualified", "Call", "2026-11-07", "09:30", 20, "Follow up on rate expectations before quoting.", "Deborah Oje");
+    addA(11, "quote", "Call", "2026-11-03", "15:00", 30, "Walked through the ocean freight quote line by line.", "Aishat Jimoh");
+    addA(13, "quote", "TBD", "2026-11-10", "12:00", 45, "Review revised quote with their logistics lead.", "Adeshewa Adelowotan");
+    [
+      ["prospect", "Call", "2026-09-29", "10:00", 20, "First call. They clear 10 to 15 containers a month through Tin Can."],
+      ["prospect", "Email", "2026-09-30", "09:15", 10, "Sent company profile and customs clearance overview."],
+      ["contacted", "In-person Meeting", "2026-10-03", "11:00", 60, "Met the shipping manager at their Apapa office."],
+      ["contacted", "Call", "2026-10-06", "14:00", 25, "Confirmed the documents they need help with: Form M and PAAR."],
+      ["contacted", "Email", "2026-10-08", "16:30", 10, "Shared sample clearance timeline for a 40ft container."],
+      ["qualified", "Call", "2026-10-13", "10:30", 30, "Budget approved by their finance team for Q4."],
+      ["qualified", "In-person Meeting", "2026-10-16", "13:00", 45, "Walked through our tracking dashboard with the ops team."],
+      ["qualified", "Email", "2026-10-20", "09:00", 15, "Requested last 3 months of shipment volumes to price the quote."],
+      ["quote", "Email", "2026-10-26", "17:00", 10, "Sent first quote for customs clearance on 12 containers."],
+      ["quote", "Call", "2026-10-29", "11:30", 20, "They asked for a discount on demurrage handling."],
+      ["quote", "Call", "2026-11-02", "15:45", 30, "Agreed revised demurrage terms, sending updated quote."]
+    ].forEach(function (x) { addA(13, x[0], x[1], x[2], x[3], x[4], x[5], "Adeshewa Adelowotan"); });
+
+    return { companies: companies, contacts: contacts, deals: deals, activities: activities, stage: "all", screen: "pipeline" };
+  }
+
+  // ---------- Helpers ----------
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function money(n) {
+    return "$" + Number(n || 0).toLocaleString("en-US", { maximumFractionDigits: 2 });
+  }
+  function initials(name) {
+    var parts = String(name).trim().split(/\s+/);
+    return ((parts[0] || "")[0] + ((parts[1] || "")[0] || (parts[0] || "")[1] || "")).toUpperCase();
+  }
+  // Deterministic 4-fill avatar cycle (design/DESIGN_SYSTEM.md §08)
+  function avatarClass(name) {
+    var h = 0;
+    for (var i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+    return "avatar-" + ((h % 4) + 1);
+  }
+  function avatar(name, size) {
+    return '<span class="avatar ' + (size ? "avatar-" + size + " " : "") + avatarClass(name) + '">' + esc(initials(name)) + "</span>";
+  }
+  function today() {
+    var d = new Date();
+    return String(d.getDate()).padStart(2, "0") + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + d.getFullYear();
+  }
+  function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  function company(id) { return state.companies.filter(function (c) { return c.id === id; })[0]; }
+  function contact(id) { return state.contacts.filter(function (c) { return c.id === id; })[0]; }
+  function deal(id) { return state.deals.filter(function (d) { return d.id === id; })[0]; }
+  function contactName(c) { return c ? c.first + " " + c.last : "—"; }
+  function stageIndex(id) { for (var i = 0; i < STAGES.length; i++) if (STAGES[i].id === id) return i; return -1; }
+  function stageById(id) { return STAGES[stageIndex(id)]; }
+  function nextStage(id) { return STAGES[stageIndex(id) + 1] || null; }
+  function tierChip(t) { return '<span class="chip chip-' + esc(t) + '">' + esc(t) + "</span>"; }
+  function outcomeChip(d) {
+    if (d.outcome === "won") return '<span class="chip chip-won">' + ICON.check.replace("<svg ", '<svg width="11" height="11" ') + " Won</span>";
+    if (d.outcome === "lost") return '<span class="chip chip-lost">' + ICON.cross + " Lost</span>";
+    return "";
+  }
+
+  // ---------- Toast ----------
+  var toastTimer, undoFn;
+  function toast(msg, undo) {
+    $("toastMsg").innerHTML = msg;
+    undoFn = undo || null;
+    $("toastUndo").hidden = !undo;
+    var t = $("toast");
+    t.hidden = true; void t.offsetWidth; t.hidden = false;
+    $("phone").classList.add("toast-on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(hideToast, 5000);
+  }
+  function hideToast() {
+    $("toast").hidden = true;
+    $("phone").classList.remove("toast-on");
+    undoFn = null;
+  }
+  $("toastUndo").addEventListener("click", function () {
+    if (undoFn) undoFn();
+    hideToast();
+  });
+
+  // ---------- Screens ----------
+  function setScreen(name) {
+    state.screen = name;
+    ["pipeline", "companies", "activity"].forEach(function (s) {
+      $("screen-" + s).hidden = s !== name;
+    });
+    document.querySelectorAll(".nav-btn").forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-screen") === name);
+    });
+    $("screenTitle").textContent = $("screen-" + name).getAttribute("data-title");
+    $("fabLabel").textContent = { pipeline: "New deal", companies: "Add company", activity: "Add activity" }[name];
+    $("screens").scrollTop = 0;
+  }
+  document.querySelectorAll(".nav-btn").forEach(function (b) {
+    b.addEventListener("click", function () { setScreen(b.getAttribute("data-screen")); });
+  });
+  $("fab").addEventListener("click", function () {
+    if (state.screen === "pipeline") openNewDeal();
+    else if (state.screen === "companies") openAddCompany();
+    else openActivity(null);
+  });
+
+  // ---------- Pagination (shared by Pipeline, Companies and Activity) ----------
+  var PAGE_SIZE = 5;
+  var pages = { deals: 1, companies: 1, activity: 1 };
+  function paginate(key, list) {
+    var count = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
+    if (pages[key] > count) pages[key] = count;
+    var p = pages[key], start = (p - 1) * PAGE_SIZE;
+    var pager = $("pager-" + key);
+    pager.hidden = list.length <= PAGE_SIZE;
+    if (!pager.hidden) {
+      pager.innerHTML =
+        '<button type="button" class="pager-btn" data-pager="' + key + '" data-dir="-1"' + (p === 1 ? " disabled" : "") + ' aria-label="Previous page">' + ICON.chevron + "Prev</button>" +
+        '<span class="pager-info"><b>Page ' + p + " of " + count + "</b><small>" + (start + 1) + "–" + Math.min(start + PAGE_SIZE, list.length) + " of " + list.length + "</small></span>" +
+        '<button type="button" class="pager-btn next" data-pager="' + key + '" data-dir="1"' + (p === count ? " disabled" : "") + ' aria-label="Next page">Next' + ICON.chevron + "</button>";
+    }
+    return list.slice(start, start + PAGE_SIZE);
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-pager]");
+    if (!b || b.disabled) return;
+    var key = b.getAttribute("data-pager");
+    pages[key] += Number(b.getAttribute("data-dir"));
+    ({ deals: renderDeals, companies: renderCompanies, activity: renderActivity })[key]();
+    $("screens").scrollTop = 0;
+  });
+
+  // ---------- Pipeline ----------
+
+
+  function dealMatches(d, q) {
+    if (!q) return true;
+    var c = company(d.companyId);
+    return (c.name + " " + d.owner + " " + contactName(contact(d.contactId))).toLowerCase().indexOf(q) !== -1;
+  }
+
+  // Stage filter: a single dropdown with live counts (respects the search)
+  function renderStages() {
+    var q = $("dealSearch").value.trim().toLowerCase();
+    var count = function (id) {
+      return state.deals.filter(function (d) { return (id === "all" || d.stage === id) && dealMatches(d, q); }).length;
+    };
+    $("stageFilter").innerHTML = '<option value="all">All stages</option>' +
+      STAGES.map(function (s) { return '<option value="' + s.id + '">' + esc(s.name) + " " + count(s.id) + "</option>"; }).join("");
+    $("stageFilter").value = state.stage;
+  }
+
+  function dealCard(d, freshId) {
+    var c = company(d.companyId);
+    var foot = d.stage === "closed"
+      ? '<span class="stage-select is-final outcome-' + d.outcome + '">' + (d.outcome === "won" ? ICON.check + "Closed · Won" : ICON.cross + "Closed · Lost") + "</span>"
+      : '<button type="button" class="stage-select" data-stage-menu="' + d.id + '" aria-haspopup="menu" aria-label="Change stage for ' + esc(c.name) + ', currently ' + esc(stageById(d.stage).name) + '">' +
+      '<span class="stage-dot" style="background:' + stageById(d.stage).bar + '"></span>' + esc(stageById(d.stage).name) + ICON.chevron + "</button>";
+    return '<article class="deal-card' + (d.id === freshId ? " fresh" : "") + '" data-deal="' + d.id + '" tabindex="0">' +
+      '<div class="deal-top"><h3>' + esc(c.name) + '</h3><span class="deal-value">' + money(d.value) + "</span></div>" +
+      '<div class="deal-meta"><span class="owner">' + avatar(d.owner, "xs") + "<span>" + esc(d.owner) + "</span></span>" + tierChip(d.tier) + "</div>" +
+      (d.note ? '<p class="deal-note">' + esc(d.note) + "</p>" : "") +
+      '<div class="deal-foot"><span class="muted">Created ' + esc(d.created) + "</span>" + foot + "</div></article>";
+  }
+
+  function renderDeals(freshId) {
+    var q = $("dealSearch").value.trim().toLowerCase();
+    var all = state.stage === "all";
+    var st = all ? { name: "All stages" } : stageById(state.stage);
+    var list = state.deals.filter(function (d) { return (all || d.stage === state.stage) && dealMatches(d, q); });
+    var total = list.reduce(function (a, d) { return a + (Number(d.value) || 0); }, 0);
+    var extra = "";
+    if (state.stage === "closed") {
+      var w = list.filter(function (d) { return d.outcome === "won"; }).length;
+      extra = " · " + w + " won · " + (list.length - w) + " lost";
+    }
+    $("stageSummary").innerHTML = "<b>" + esc(st.name) + "</b> · " + list.length + " deal" + (list.length === 1 ? "" : "s") + " · " + money(total) + extra;
+    var shown = paginate("deals", list);
+    $("dealList").innerHTML = list.length
+      ? shown.map(function (d) { return dealCard(d, freshId); }).join("")
+      : '<div class="empty"><b>' + (q ? "No deals match “" + esc($("dealSearch").value.trim()) + "”" : "No deals in " + esc(st.name)) + "</b>" +
+        (q ? "Search by company, deal owner or contact name." : "Move a deal here or create a new one.") + "</div>";
+  }
+
+  function renderPipeline(freshId) {
+    renderStages(); renderDeals(freshId);
+  }
+
+  $("dealSearch").addEventListener("input", function () { pages.deals = 1; renderStages(); renderDeals(); });
+  $("stageFilter").addEventListener("change", function () {
+    state.stage = $("stageFilter").value;
+    pages.deals = 1;
+    renderDeals();
+  });
+  $("dealList").addEventListener("click", function (e) {
+    var mv = e.target.closest("[data-stage-menu]");
+    if (mv) { e.stopPropagation(); openStageMenu(mv); return; }
+    var card = e.target.closest("[data-deal]");
+    if (card) openDeal(card.getAttribute("data-deal"));
+  });
+  $("dealList").addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" || e.target.closest("button")) return;
+    var card = e.target.closest("[data-deal]");
+    if (card) openDeal(card.getAttribute("data-deal"));
+  });
+
+  // Moving deals
+  function moveTo(id, toStage, outcome, comment) {
+    var d = deal(id);
+    if (!d || d.stage === toStage && !outcome) return;
+    if (stageIndex(toStage) < stageIndex(d.stage)) return; // deals only move forward
+    if (toStage === "closed" && !outcome) { openMove(id, toStage); return; }
+    var prev = { stage: d.stage, outcome: d.outcome, note: d.note };
+    var entry = { from: d.stage, to: toStage, outcome: outcome || null, text: comment || "", date: today(), by: "Nkechi" };
+    var card = document.querySelector('.deal-card[data-deal="' + id + '"]');
+    var apply = function () {
+      d.stage = toStage;
+      d.outcome = toStage === "closed" ? outcome : null;
+      d.note = toStage === "closed" && outcome === "lost" ? (comment || "") : "";
+      d.comments = d.comments || [];
+      d.comments.unshift(entry);
+      renderPipeline();
+      if ($("dealSheet").classList.contains("open")) renderDealSheet(id);
+      var c = company(d.companyId);
+      var label = toStage === "closed" ? "closed as " + (outcome === "won" ? "Won" : "Lost") : "moved to " + stageById(toStage).name;
+      toast("<b>" + esc(c.name) + "</b> " + label, function () {
+        d.stage = prev.stage; d.outcome = prev.outcome; d.note = prev.note;
+        d.comments = d.comments.filter(function (x) { return x !== entry; });
+        renderPipeline();
+        if ($("dealSheet").classList.contains("open")) renderDealSheet(id);
+      });
+    };
+    if (card && !$("dealSheet").classList.contains("open")) {
+      card.classList.add("leaving");
+      setTimeout(apply, 220);
+    } else apply();
+  }
+
+  // ---------- Stage dropdown on deal cards ----------
+  var menuDealId = null, menuBtn = null;
+  function openStageMenu(btn) {
+    var id = btn.getAttribute("data-stage-menu");
+    if (menuDealId === id) { closeStageMenu(); return; }
+    closeStageMenu();
+    menuDealId = id; menuBtn = btn;
+    var d = deal(id);
+    var menu = $("stageMenu");
+    menu.innerHTML = '<p class="stage-menu-head">Move deal to</p>' + STAGES.filter(function (s) { return s.id !== "closed"; }).map(function (s, i) {
+      var cur = s.id === d.stage, past = i < stageIndex(d.stage);
+      return '<button type="button" role="menuitemradio" aria-checked="' + cur + '" class="stage-opt' + (cur ? " current" : "") + (past ? " past" : "") + '"' +
+        (past ? ' disabled aria-disabled="true"' : ' data-to="' + s.id + '"') + ">" +
+        '<span class="stage-num">' + (i + 1) + "</span><span class=\"stage-opt-name\">" + esc(s.name) +
+        (past ? "<small>Completed</small>" : "") + "</span>" +
+        (cur ? '<span class="pick-check">' + ICON.check + "</span>" : "") + "</button>";
+    }).join("") +
+      '<p class="stage-menu-head">Close deal</p>' +
+      '<button type="button" role="menuitem" class="stage-opt opt-won" data-to="closed" data-outcome="won"><span class="stage-num">' + ICON.check + '</span><span class="stage-opt-name">Closed · Won<small>Customer accepted</small></span></button>' +
+      '<button type="button" role="menuitem" class="stage-opt opt-lost" data-to="closed" data-outcome="lost"><span class="stage-num">' + ICON.cross + '</span><span class="stage-opt-name">Closed · Lost<small>Add a reason</small></span></button>';
+    menu.hidden = false;
+    btn.setAttribute("aria-expanded", "true");
+    var phone = $("phone").getBoundingClientRect(), r = btn.getBoundingClientRect();
+    var mh = menu.offsetHeight, mw = menu.offsetWidth;
+    var top = r.bottom - phone.top + 6;
+    if (r.bottom + mh + 90 > phone.bottom) top = r.top - phone.top - mh - 6; // open upward near the bottom
+    menu.style.top = top + "px";
+    menu.style.left = Math.max(12, r.right - phone.left - mw) + "px";
+    var first = menu.querySelector(".stage-opt:not(.current)");
+    if (first) first.focus({ preventScroll: true });
+  }
+  function closeStageMenu() {
+    $("stageMenu").hidden = true;
+    if (menuBtn) menuBtn.setAttribute("aria-expanded", "false");
+    menuDealId = null; menuBtn = null;
+  }
+  $("stageMenu").addEventListener("click", function (e) {
+    var o = e.target.closest("[data-to]");
+    if (!o) return;
+    var id = menuDealId, to = o.getAttribute("data-to"), outcome = o.getAttribute("data-outcome");
+    closeStageMenu();
+    if (deal(id).stage !== to || outcome) openMove(id, to, outcome);
+  });
+  document.addEventListener("click", function (e) {
+    if (menuDealId && !e.target.closest("#stageMenu") && !e.target.closest("[data-stage-menu]")) closeStageMenu();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && menuDealId) { closeStageMenu(); e.stopImmediatePropagation(); }
+  }, true);
+  $("screens").addEventListener("scroll", closeStageMenu, { passive: true });
+
+  // ---------- Sheet manager (stackable) ----------
+  var stack = [];
+  function openSheet(id) {
+    var host = $(id);
+    if (stack.indexOf(id) !== -1) return;
+    stack.push(id);
+    host.style.zIndex = 50 + stack.length * 2;
+    host.hidden = false;
+    void host.offsetWidth;
+    host.classList.add("open");
+    var focusable = host.querySelector(".sheet-body input:not([disabled]), .sheet-body button:not([disabled]), .sheet-body select");
+    setTimeout(function () { if (focusable && id === "pickerSheet") focusable.focus(); }, 280);
+  }
+  function closeSheet(id) {
+    var host = $(id);
+    stack = stack.filter(function (s) { return s !== id; });
+    host.classList.remove("open");
+    setTimeout(function () { if (!host.classList.contains("open")) host.hidden = true; }, 280);
+  }
+  document.querySelectorAll(".sheet-host").forEach(function (host) {
+    host.addEventListener("click", function (e) {
+      if (e.target.closest("[data-close]")) closeSheet(host.id);
+    });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && stack.length) closeSheet(stack[stack.length - 1]);
+  });
+
+  // ---------- Deal detail ----------
+  var openDealId = null;
+  function openDeal(id) {
+    openDealId = id;
+    renderDealSheet(id);
+    openSheet("dealSheet");
+  }
+  function renderDealSheet(id) {
+    var d = deal(id), c = company(d.companyId), ct = contact(d.contactId);
+    var idx = stageIndex(d.stage);
+    $("dealSheetTitle").textContent = c.name;
+    $("dealSheetSub").textContent = d.product + " · Created " + d.created;
+
+    $("dealSheetBody").innerHTML =
+      '<div class="detail-hero"><div><span class="kpi-label">Deal value</span><span class="detail-value">' + money(d.value) + "</span></div>" +
+      '<div>' + tierChip(d.tier) + " " + outcomeChip(d) + "</div></div>" +
+      stageStatus(d, idx) +
+      activitiesBlock(d) +
+      commentsBlock(d) +
+      '<p class="section-title">Contact</p>' +
+      contactCard(ct) +
+      '<p class="section-title">Details</p><dl class="info-card">' +
+      '<div class="info-row"><dt>Owner</dt><dd><span class="owner">' + avatar(d.owner, "xs") + "<span>" + esc(d.owner) + "</span></span></dd></div>" +
+      '<div class="info-row"><dt>Product</dt><dd><span class="chip chip-mode">' + esc(d.product) + "</span></dd></div>" +
+      '<div class="info-row"><dt>Company email</dt><dd>' + esc(c.email || "—") + "</dd></div>" +
+      '<div class="info-row"><dt>Industry</dt><dd>' + esc(c.industry || "—") + "</dd></div></dl>";
+
+  }
+  function stageStatus(d, idx) {
+    var label = d.stage === "closed" ? "Closed · " + (d.outcome === "won" ? "Won" : "Lost") : stageById(d.stage).name;
+    var cls = d.outcome === "won" ? " is-won" : d.outcome === "lost" ? " is-lost" : "";
+    return '<div class="stage-status' + cls + '"><span class="kpi-label">Deal stage</span>' +
+      '<div class="stage-status-row"><span class="stage-pill"><span class="stage-num">' + (idx + 1) + "</span>" + esc(label) + "</span>" +
+      '<span class="muted">Stage ' + (idx + 1) + " of " + STAGES.length + "</span></div></div>";
+  }
+  function stageLabel(c) {
+    return c.to === "closed" ? "Closed · " + (c.outcome === "won" ? "Won" : "Lost") : stageById(c.to).name;
+  }
+  function commentsBlock(d) {
+    var list = d.comments || [];
+    return '<p class="section-title">Comments · ' + list.length + "</p>" +
+      (list.length ? '<ol class="comments">' + list.map(function (c) {
+        return '<li class="comment"><div class="comment-head">' + avatar(c.by, "xs") + "<b>" + esc(c.by) + "</b>" +
+          '<span class="muted">' + esc(c.date) + "</span></div>" +
+          '<p class="comment-move">' + esc(stageById(c.from).name) + " → " + esc(stageLabel(c)) + "</p>" +
+          (c.text ? '<p class="comment-text">' + esc(c.text) + "</p>" : '<p class="comment-text muted">No comment added</p>') + "</li>";
+      }).join("") + "</ol>"
+        : '<p class="muted comments-empty">No comments yet. Add one when you move this deal to a later stage.</p>');
+  }
+  function contactCard(ct) {
+    if (!ct) return '<p class="muted">No contact linked.</p>';
+    var row = function (icon, label, value) {
+      return '<div class="contact-line"><span class="contact-ico">' + icon + '</span>' +
+        '<span class="contact-val"><small>' + label + "</small><span>" + esc(value) + "</span></span></div>";
+    };
+    return '<div class="contact-card">' +
+      '<div class="contact-head">' + avatar(contactName(ct), "sm") + "<div><b>" + esc(contactName(ct)) + "</b><small>" + esc(ct.title || "—") + "</small></div></div>" +
+      row(ICON.phone, "Phone", "+234 " + ct.phone) +
+      row(ICON.mail, "Email", ct.email) +
+      "</div>";
+  }
+
+  // ---------- Close-out ----------
+  // Every stage move goes through this sheet so the user can add a comment.
+  var moveDealId = null, moveTarget = null;
+  function openMove(id, to, outcome) {
+    var d = deal(id);
+    moveDealId = id; moveTarget = to;
+    var closing = to === "closed";
+    $("outcomeTitle").textContent = closing ? "Close deal" : "Move to " + stageById(to).name;
+    $("outcomeSub").textContent = company(d.companyId).name + " · " + money(d.value);
+    $("movePath").innerHTML = '<span class="chip chip-mode">' + esc(stageById(d.stage).name) + "</span>" + ICON.arrow +
+      '<span class="chip chip-primary" id="moveTo">' + esc(closing ? "Closed" : stageById(to).name) + "</span>";
+    $("outcomeOptions").hidden = !closing;
+    document.querySelectorAll('input[name="outcome"]').forEach(function (r) { r.checked = r.value === outcome; });
+    $("moveComment").value = "";
+    syncMoveSheet();
+    openSheet("outcomeSheet");
+    setTimeout(function () { $("moveComment").focus(); }, 300);
+  }
+  function syncMoveSheet() {
+    var sel = document.querySelector('input[name="outcome"]:checked');
+    var closing = moveTarget === "closed";
+    var lost = closing && sel && sel.value === "lost";
+    $("moveCommentLabel").innerHTML = lost ? "Reason lost <em>optional</em>" : "Comment <em>optional</em>";
+    $("moveComment").placeholder = lost ? "e.g. High rate and response time" : closing ? "e.g. PO received, shipment booked" : "e.g. Called the client, they want a quote by Friday";
+    if (closing && sel) $("moveTo").textContent = "Closed · " + (sel.value === "won" ? "Won" : "Lost");
+    $("outcomeConfirm").textContent = closing ? "Close deal" : "Move deal";
+    $("outcomeConfirm").disabled = closing && !sel;
+  }
+  document.querySelectorAll('input[name="outcome"]').forEach(function (r) { r.addEventListener("change", syncMoveSheet); });
+  $("outcomeConfirm").addEventListener("click", function () {
+    var sel = document.querySelector('input[name="outcome"]:checked');
+    if (moveTarget === "closed" && !sel) return;
+    closeSheet("outcomeSheet");
+    moveTo(moveDealId, moveTarget, moveTarget === "closed" ? sel.value : null, $("moveComment").value.trim());
+  });
+
+  // ---------- Picker ----------
+  var picker = null;
+  function openPicker(opts) {
+    picker = opts;
+    $("pickerTitle").textContent = opts.title;
+    $("pickerSearch").value = "";
+    $("pickerSearch").placeholder = opts.placeholder || "Search…";
+    renderPicker();
+    openSheet("pickerSheet");
+  }
+  function renderPicker() {
+    var q = $("pickerSearch").value.trim();
+    var ql = q.toLowerCase();
+    var items = picker.items().filter(function (it) { return !ql || (it.label + " " + (it.sub || "")).toLowerCase().indexOf(ql) !== -1; });
+    var html = "";
+    if (picker.createLabel) {
+      html += '<button type="button" class="pick pick-create" data-create><span class="plus">' + ICON.plus + '</span><span class="row-main"><span class="row-title">' +
+        esc(picker.createLabel(q)) + '</span><span class="row-sub">' + esc(picker.createSub || "") + "</span></span></button>";
+    }
+    html += items.map(function (it) {
+      return '<button type="button" class="pick" role="option" data-pick="' + it.id + '">' + avatar(it.label, "sm") +
+        '<span class="row-main"><span class="row-title">' + esc(it.label) + '</span><span class="row-sub">' + esc(it.sub || "") + "</span></span>" +
+        (picker.selected === it.id ? '<span class="pick-check">' + ICON.check + "</span>" : "") + "</button>";
+    }).join("");
+    if (!items.length && !(q && picker.createLabel)) html += '<p class="picker-empty">' + (q ? "No match for “" + esc(q) + "”." : "Nothing here yet.") + "</p>";
+    $("pickerList").innerHTML = html;
+  }
+  $("pickerSearch").addEventListener("input", renderPicker);
+  $("pickerList").addEventListener("click", function (e) {
+    var cr = e.target.closest("[data-create]");
+    var pk = e.target.closest("[data-pick]");
+    if (!cr && !pk) return;
+    var p = picker;
+    var q = $("pickerSearch").value.trim();
+    closeSheet("pickerSheet");
+    if (cr) p.onCreate(q); else p.onPick(pk.getAttribute("data-pick"));
+  });
+
+  function setPickerBtn(btn, label, placeholder) {
+    btn.classList.toggle("has-value", !!label);
+    btn.querySelector("span").outerHTML = label
+      ? '<span class="pv">' + avatar(label, "xs") + "<span>" + esc(label) + "</span></span>"
+      : "<span>" + esc(placeholder) + "</span>";
+  }
+
+  function companyItems() {
+    return state.companies.map(function (c) {
+      return { id: c.id, label: c.name, sub: c.tier + " · " + c.industry };
+    });
+  }
+
+  // ---------- Selects ----------
+  function fillSelect(sel, values, placeholder) {
+    sel.innerHTML = (placeholder ? '<option value="">' + esc(placeholder) + "</option>" : "") +
+      values.map(function (v) { return '<option value="' + esc(v) + '">' + esc(v) + "</option>"; }).join("");
+  }
+  function syncSelectPlaceholder(sel) { sel.classList.toggle("placeholder", !sel.value); }
+  document.querySelectorAll(".field-select select").forEach(function (s) {
+    s.addEventListener("change", function () { syncSelectPlaceholder(s); });
+  });
+
+  // ---------- New deal ----------
+  var nd;
+  function resetNewDeal(prefCompanyId) {
+    nd = { companyId: null, newCompany: false, contactId: null, newContact: false };
+    $("newDealForm").reset();
+    ["ndCoName", "ndCoEmail", "ndCoIndustry", "ndCtFirst", "ndCtLast", "ndCtTitle", "ndCtPhone", "ndCtEmail", "ndValue"].forEach(function (id) { $(id).value = ""; });
+    fillSelect($("ndClass"), TIERS, "Select class");
+    fillSelect($("ndProduct"), PRODUCTS);
+    $("ndProduct").value = "FreightSaver";
+    fillSelect($("ndOwner"), OWNERS, "Select owner");
+    clearErrors($("newDealForm"));
+    if (prefCompanyId) selectNdCompany(prefCompanyId); else renderNd();
+  }
+  function selectNdCompany(id) {
+    nd.companyId = id; nd.newCompany = false;
+    nd.contactId = null; nd.newContact = false;
+    var c = company(id);
+    $("ndClass").value = c.tier;
+    if (!$("ndOwner").value) $("ndOwner").value = c.owner;
+    var cts = state.contacts.filter(function (x) { return x.companyId === id; });
+    if (cts.length === 1) nd.contactId = cts[0].id;
+    if (!cts.length) nd.newContact = true;
+    renderNd();
+  }
+  function renderNd() {
+    var coBtn = $("ndCompanyBtn"), ctBtn = $("ndContactBtn");
+    setPickerBtn(coBtn, nd.companyId ? company(nd.companyId).name : "", "Search companies…");
+    $("ndCoExisting").hidden = nd.newCompany;
+    $("ndNewCompany").hidden = !nd.newCompany;
+
+    // A brand-new company has no contacts yet, so its contact must be new too.
+    if (nd.newCompany) nd.newContact = true;
+    ctBtn.disabled = !nd.companyId;
+    $("ndContactField").classList.toggle("is-disabled", ctBtn.disabled);
+    $("ndContactField").hidden = nd.newContact;
+    $("ndContactHint").hidden = !nd.newCompany;
+    if (nd.contactId) setPickerBtn(ctBtn, contactName(contact(nd.contactId)), "");
+    else setPickerBtn(ctBtn, "", nd.companyId ? "Select a contact" : "Select a company first");
+    $("ndNewContact").hidden = !nd.newContact;
+
+    document.querySelectorAll("#newDealForm [data-seg]").forEach(function (b) {
+      var isNew = b.getAttribute("data-seg") === "company" ? nd.newCompany : nd.newContact;
+      var on = (b.getAttribute("data-val") === "new") === isNew;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-checked", String(on));
+      b.disabled = b.getAttribute("data-seg") === "contact" && b.getAttribute("data-val") === "existing" && nd.newCompany;
+    });
+    document.querySelectorAll("#newDealForm select").forEach(syncSelectPlaceholder);
+    validateNd();
+  }
+  function ndValid() {
+    var ok = true;
+    if (nd.newCompany) ok = ok && $("ndCoName").value.trim() && $("ndCoIndustry").value.trim();
+    else ok = ok && nd.companyId;
+    if (nd.newContact) ok = ok && $("ndCtFirst").value.trim() && $("ndCtLast").value.trim() && $("ndCtPhone").value.trim() && $("ndCtEmail").value.trim();
+    else ok = ok && nd.contactId;
+    return !!(ok && $("ndClass").value && $("ndProduct").value && $("ndOwner").value);
+  }
+  function validateNd() { $("ndSubmit").disabled = !ndValid(); }
+
+  function openNewDeal(prefCompanyId) {
+    resetNewDeal(prefCompanyId);
+    openSheet("newDealSheet");
+  }
+
+  $("ndCompanyBtn").addEventListener("click", function () {
+    openPicker({
+      title: "Company",
+      placeholder: "Search companies…",
+      items: companyItems,
+      selected: nd.companyId,
+      createLabel: function (q) { return q ? "Add “" + q + "” as a new company" : "Add a new company"; },
+      createSub: "Enter its details and first contact in this deal",
+      onPick: selectNdCompany,
+      onCreate: function (q) {
+        nd.companyId = null; nd.newCompany = true; nd.contactId = null; nd.newContact = true;
+        $("ndCoName").value = q;
+        renderNd();
+        setTimeout(function () { (q ? $("ndCoIndustry") : $("ndCoName")).focus(); }, 300);
+      }
+    });
+  });
+  $("ndContactBtn").addEventListener("click", function () {
+    if (!nd.companyId) return;
+    var cid = nd.companyId;
+    openPicker({
+      title: "Contact at " + company(cid).name,
+      placeholder: "Search contacts…",
+      items: function () {
+        return state.contacts.filter(function (c) { return c.companyId === cid; })
+          .map(function (c) { return { id: c.id, label: contactName(c), sub: c.title }; });
+      },
+      selected: nd.contactId,
+      createLabel: function (q) { return q ? "Add “" + q + "” as a new contact" : "Add a new contact"; },
+      createSub: "Linked to " + company(cid).name,
+      onPick: function (id) { nd.contactId = id; nd.newContact = false; renderNd(); },
+      onCreate: function (q) {
+        nd.contactId = null; nd.newContact = true;
+        var parts = q.split(/\s+/);
+        $("ndCtFirst").value = parts[0] || "";
+        $("ndCtLast").value = parts.slice(1).join(" ");
+        renderNd();
+        setTimeout(function () { $("ndCtFirst").focus(); }, 300);
+      }
+    });
+  });
+  $("newDealForm").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-seg]");
+    if (!b || b.disabled) return;
+    var isNew = b.getAttribute("data-val") === "new";
+    if (b.getAttribute("data-seg") === "company") {
+      if (isNew === nd.newCompany) return;
+      nd.newCompany = isNew;
+      nd.companyId = null; nd.contactId = null;
+      nd.newContact = isNew;
+      renderNd();
+      if (isNew) setTimeout(function () { $("ndCoName").focus(); }, 50);
+    } else {
+      nd.newContact = isNew;
+      if (isNew) nd.contactId = null;
+      renderNd();
+      if (isNew) setTimeout(function () { $("ndCtFirst").focus(); }, 50);
+    }
+  });
+  $("newDealForm").addEventListener("input", function (e) {
+    validateNd();
+    clearFieldError(e.target);
+  });
+  $("newDealForm").addEventListener("change", validateNd);
+
+  $("newDealForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!ndValid()) return;
+    var bad = false;
+    if (nd.newCompany && $("ndCoEmail").value.trim() && !isEmail($("ndCoEmail").value.trim())) bad = fieldError($("ndCoEmail"), "Enter a valid email") || true;
+    if (nd.newContact && !isEmail($("ndCtEmail").value.trim())) bad = fieldError($("ndCtEmail"), "Enter a valid email") || true;
+    if (bad) return;
+
+    var owner = $("ndOwner").value, tier = $("ndClass").value;
+    var made = [];
+    var coId = nd.companyId;
+    if (nd.newCompany) {
+      var co = { id: uid("co"), name: $("ndCoName").value.trim(), email: $("ndCoEmail").value.trim(), address: "", industry: $("ndCoIndustry").value.trim(), tier: tier, owner: owner };
+      state.companies.unshift(co); coId = co.id; made.push("company");
+    }
+    var ctId = nd.contactId;
+    if (nd.newContact) {
+      var ct = { id: uid("ct"), first: $("ndCtFirst").value.trim(), last: $("ndCtLast").value.trim(), companyId: coId, title: $("ndCtTitle").value.trim(), phone: $("ndCtPhone").value.trim(), email: $("ndCtEmail").value.trim() };
+      state.contacts.unshift(ct); ctId = ct.id; made.push("contact");
+    }
+    var d = { id: uid("dl"), companyId: coId, contactId: ctId, value: parseFloat($("ndValue").value.replace(/[^0-9.]/g, "")) || 0, tier: tier, product: $("ndProduct").value, owner: owner, stage: "prospect", created: today(), outcome: null, note: "" };
+    state.deals.unshift(d);
+
+    closeSheet("newDealSheet");
+    closeSheet("companyDetailSheet");
+    setScreen("pipeline");
+    state.stage = "prospect";
+    $("dealSearch").value = "";
+    pages.deals = 1;
+    renderPipeline(d.id);
+    renderCompanies(); renderActivity();
+    toast("Deal created for <b>" + esc(company(coId).name) + "</b> in Prospect" + (made.length ? " · new " + made.join(" & ") + " added" : ""));
+  });
+
+  // ---------- Errors ----------
+  function fieldError(input, msg) {
+    var f = input.closest(".field");
+    f.classList.add("has-error");
+    var s = f.querySelector(".err");
+    if (s) s.textContent = msg;
+    input.focus();
+  }
+  function clearFieldError(input) {
+    var f = input.closest && input.closest(".field");
+    if (!f) return;
+    f.classList.remove("has-error");
+    var s = f.querySelector(".err");
+    if (s) s.textContent = "";
+  }
+  function clearErrors(form) { form.querySelectorAll(".has-error").forEach(function (f) { f.classList.remove("has-error"); }); form.querySelectorAll(".err").forEach(function (s) { s.textContent = ""; }); }
+
+  // ---------- Companies ----------
+  var freshCompany = null;
+  function renderCompanies() {
+    var q = $("companySearch").value.trim().toLowerCase();
+    var list = state.companies.filter(function (c) { return !q || (c.name + " " + c.email + " " + c.industry).toLowerCase().indexOf(q) !== -1; });
+    $("companySummary").innerHTML = "<b>" + state.companies.length + "</b> companies registered";
+    if (!list.length) $("pager-companies").hidden = true;
+    $("companyList").innerHTML = list.length ? paginate("companies", list).map(function (c) {
+      var n = state.deals.filter(function (d) { return d.companyId === c.id; }).length;
+      return '<button type="button" class="row' + (c.id === freshCompany ? " fresh" : "") + '" data-company="' + c.id + '">' + avatar(c.name) +
+        '<span class="row-main"><span class="row-title">' + esc(c.name) + '</span><span class="row-sub">' + esc(c.email || c.industry) + "</span></span>" +
+        '<span class="row-side">' + tierChip(c.tier) + '<span class="muted">' + n + " deal" + (n === 1 ? "" : "s") + "</span></span></button>";
+    }).join("") : '<div class="empty" style="border:0"><b>No companies found</b>Try a different search.</div>';
+    freshCompany = null;
+  }
+  $("companySearch").addEventListener("input", function () { pages.companies = 1; renderCompanies(); });
+  $("companyList").addEventListener("click", function (e) {
+    var r = e.target.closest("[data-company]");
+    if (r) openCompanyDetail(r.getAttribute("data-company"));
+  });
+
+  var detailCompanyId = null;
+  function openCompanyDetail(id) {
+    detailCompanyId = id;
+    var c = company(id);
+    $("cdHead").innerHTML = avatar(c.name, "lg") + '<div style="min-width:0"><h2 id="cdTitle">' + esc(c.name) + '</h2><p class="sheet-sub">' + esc(c.industry) + " · " + tierChip(c.tier) + "</p></div>";
+    var cts = state.contacts.filter(function (x) { return x.companyId === id; });
+    var dls = state.deals.filter(function (x) { return x.companyId === id; });
+    $("cdBody").innerHTML =
+      '<p class="section-title">Company details</p><dl class="info-card">' +
+      '<div class="info-row"><dt>Company name</dt><dd>' + esc(c.name) + "</dd></div>" +
+      '<div class="info-row"><dt>Class</dt><dd>' + tierChip(c.tier) + "</dd></div>" +
+      '<div class="info-row"><dt>Deal owner</dt><dd><span class="owner">' + avatar(c.owner, "xs") + "<span>" + esc(c.owner) + "</span></span></dd></div>" +
+      '<div class="info-row"><dt>Industry</dt><dd>' + esc(c.industry || "—") + "</dd></div>" +
+      '<div class="info-row"><dt>Email</dt><dd>' + esc(c.email || "—") + "</dd></div>" +
+      '<div class="info-row"><dt>Address</dt><dd>' + esc(c.address || "—") + "</dd></div></dl>" +
+      '<p class="section-title">Contacts · ' + cts.length + "</p>" +
+      (cts.length ? cts.map(function (x) { return contactCard(x); }).join("") : '<p class="muted" style="margin:0 0 18px">No contacts yet.</p>') +
+      '<div class="deal-count"><span>Deals</span><b>' + dls.length + "</b><small>" + (dls.length === 1 ? "deal" : "deals") + " tied to this company</small></div>";
+    openSheet("companyDetailSheet");
+  }
+  $("cdNewDeal").addEventListener("click", function () { openNewDeal(detailCompanyId); });
+
+  function openAddCompany() {
+    $("companyForm").reset();
+    clearErrors($("companyForm"));
+    fillSelect($("coTier"), TIERS);
+    $("coTier").value = "SME";
+    fillSelect($("coOwner"), OWNERS, "Select owner");
+    syncSelectPlaceholder($("coOwner"));
+    validateCo();
+    openSheet("companySheet");
+  }
+  function validateCo() {
+    $("coSubmit").disabled = !($("coName").value.trim() && $("coIndustry").value.trim() && $("coTier").value && $("coOwner").value &&
+      ["coCtFirst", "coCtLast", "coCtPhone", "coCtEmail"].every(function (id) { return $(id).value.trim(); }));
+  }
+  $("companyForm").addEventListener("input", function (e) { validateCo(); clearFieldError(e.target); });
+  $("companyForm").addEventListener("change", validateCo);
+  $("companyForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var em = $("coEmail").value.trim();
+    if (em && !isEmail(em)) { fieldError($("coEmail"), "Enter a valid email"); return; }
+    if (!isEmail($("coCtEmail").value.trim())) { fieldError($("coCtEmail"), "Enter a valid email"); return; }
+    var c = { id: uid("co"), name: $("coName").value.trim(), email: em, address: $("coAddress").value.trim(), industry: $("coIndustry").value.trim(), tier: $("coTier").value, owner: $("coOwner").value };
+    state.companies.unshift(c);
+    var ct = { id: uid("ct"), first: $("coCtFirst").value.trim(), last: $("coCtLast").value.trim(), companyId: c.id,
+      title: $("coCtTitle").value.trim(), phone: $("coCtPhone").value.trim(), email: $("coCtEmail").value.trim() };
+    state.contacts.unshift(ct);
+    freshCompany = c.id;
+    pages.companies = 1;
+    closeSheet("companySheet");
+    setScreen("companies");
+    $("companySearch").value = "";
+    renderCompanies();
+    toast("<b>" + esc(c.name) + "</b> added with contact " + esc(contactName(ct)));
+  });
+
+  // ---------- Contacts ----------
+  // ---------- Activities ----------
+  var TYPE_ICON = {
+    "Call": ICON.phone,
+    "Email": ICON.mail,
+    "In-person Meeting": '<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M3 20a6 6 0 0112 0M16 5.5a3 3 0 010 5.6M18 20a5 5 0 00-2.5-4.3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
+    "TBD": '<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M4 10h16M9 3v4M15 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+  };
+  function activityWhen(a) { return new Date(a.date + "T" + (a.time || "00:00")); }
+  function fmtDate(iso) { var p = iso.split("-"); return p[2] + "-" + p[1] + "-" + p[0]; }
+  function activityItem(a, showDeal) {
+    var d = deal(a.dealId);
+    return '<li class="activity' + (showDeal ? " is-link" : "") + '"' + (showDeal ? ' data-activity-deal="' + a.dealId + '" tabindex="0"' : "") + ">" +
+      '<span class="act-ico">' + (TYPE_ICON[a.type] || TYPE_ICON.TBD) + "</span>" +
+      '<div class="act-main">' +
+      '<div class="act-top"><b>' + esc(a.type) + (showDeal ? " · " + esc(company(d.companyId).name) : "") + "</b></div>" +
+      '<div class="act-meta"><span>' + esc(fmtDate(a.date)) + " · " + esc(a.time) + " · " + esc(a.duration) + ' min</span><span class="chip chip-mode">' + esc(stageById(a.stage).name) + "</span></div>" +
+      '<p class="act-comment">' + esc(a.comment) + "</p>" +
+      '<small class="muted">Logged by ' + esc(a.by) + "</small></div></li>";
+  }
+  function sortActivities(list) {
+    return list.slice().sort(function (x, y) { return activityWhen(y) - activityWhen(x); });
+  }
+  var DEAL_ACT_PAGE = 10;
+  var dealActPage = {}; // dealId -> page
+  function activitiesBlock(d) {
+    var list = sortActivities(state.activities.filter(function (a) { return a.dealId === d.id; }));
+    var count = Math.max(1, Math.ceil(list.length / DEAL_ACT_PAGE));
+    var p = Math.min(dealActPage[d.id] || 1, count), start = (p - 1) * DEAL_ACT_PAGE;
+    dealActPage[d.id] = p;
+    var shown = list.slice(start, start + DEAL_ACT_PAGE);
+    var pager = list.length > DEAL_ACT_PAGE
+      ? '<nav class="pager" aria-label="Activity pages">' +
+        '<button type="button" class="pager-btn" data-dact="' + d.id + '" data-dir="-1"' + (p === 1 ? " disabled" : "") + ' aria-label="Previous page">' + ICON.chevron + "Prev</button>" +
+        '<span class="pager-info"><b>Page ' + p + " of " + count + "</b><small>" + (start + 1) + "–" + Math.min(start + DEAL_ACT_PAGE, list.length) + " of " + list.length + "</small></span>" +
+        '<button type="button" class="pager-btn next" data-dact="' + d.id + '" data-dir="1"' + (p === count ? " disabled" : "") + ' aria-label="Next page">Next' + ICON.chevron + "</button></nav>"
+      : "";
+    var add = d.stage === "closed" ? "" : '<button type="button" class="btn-sm" data-add-activity>' + ICON.plus + "Add activity</button>";
+    return '<div class="section-head"><p class="section-title">Activities · ' + list.length + "</p>" + add + "</div>" +
+      (list.length ? '<ol class="activity-list deal-acts">' + shown.map(function (a) { return activityItem(a, false); }).join("") + "</ol>" + pager
+        : '<p class="muted comments-empty">No activities logged yet.</p>');
+  }
+
+  // Activity tab, filtered by the deal's owner
+  var ownerFilter = "all";
+  function renderActivity() {
+    var sel = $("ownerFilter");
+    sel.innerHTML = '<option value="all">All owners</option>' +
+      OWNERS.map(function (o) { return '<option value="' + esc(o) + '">' + esc(o) + "</option>"; }).join("");
+    sel.value = ownerFilter;
+    var list = sortActivities(state.activities.filter(function (a) {
+      return ownerFilter === "all" || deal(a.dealId).owner === ownerFilter;
+    }));
+    if (!list.length) $("pager-activity").hidden = true;
+    $("activityList").innerHTML = list.length ? paginate("activity", list).map(function (a) { return activityItem(a, true); }).join("")
+      : '<li class="empty"><b>' + (ownerFilter === "all" ? "No activities yet" : "No activities on " + esc(ownerFilter) + "'s deals") + "</b>Tap Add activity to log one against a deal.</li>";
+  }
+  $("ownerFilter").addEventListener("change", function () {
+    ownerFilter = $("ownerFilter").value;
+    pages.activity = 1;
+    renderActivity();
+  });
+  $("activityList").addEventListener("click", function (e) {
+    var r = e.target.closest("[data-activity-deal]");
+    if (r) openDealActivities(r.getAttribute("data-activity-deal"));
+  });
+  $("activityList").addEventListener("keydown", function (e) {
+    var r = e.target.closest("[data-activity-deal]");
+    if (r && e.key === "Enter") openDealActivities(r.getAttribute("data-activity-deal"));
+  });
+  $("dealSheetBody").addEventListener("click", function (e) {
+    if (e.target.closest("[data-add-activity]")) openActivity(openDealId);
+    if (turnDealActPage(e)) renderDealSheet(openDealId);
+  });
+
+  function turnDealActPage(e) {
+    var b = e.target.closest("[data-dact]");
+    if (!b || b.disabled) return false;
+    var id = b.getAttribute("data-dact");
+    dealActPage[id] = (dealActPage[id] || 1) + Number(b.getAttribute("data-dir"));
+    setTimeout(function () { document.querySelectorAll(".deal-acts").forEach(function (l) { l.scrollTop = 0; }); }, 0);
+    return true;
+  }
+
+  // Activity tab -> a deal's logged activities only (no contact or deal details)
+  var daDealId = null;
+  function openDealActivities(id) {
+    daDealId = id;
+    renderDealActivities();
+    openSheet("dealActSheet");
+  }
+  function renderDealActivities() {
+    var d = deal(daDealId);
+    $("daTitle").textContent = company(d.companyId).name;
+    $("daSub").textContent = d.product + " · " + money(d.value);
+    $("daBody").innerHTML = stageStatus(d, stageIndex(d.stage)) + activitiesBlock(d);
+  }
+  $("daBody").addEventListener("click", function (e) {
+    if (e.target.closest("[data-add-activity]")) openActivity(daDealId);
+    if (turnDealActPage(e)) renderDealActivities();
+  });
+
+  // Add activity sheet. From a deal the deal is fixed; from the Activity tab you pick one.
+  var acDealId = null, acFixed = false;
+  function openActivity(dealId) {
+    $("activityForm").reset();
+    clearErrors($("activityForm"));
+    acDealId = dealId; acFixed = !!dealId;
+    var t = new Date();
+    $("acDate").value = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, "0") + "-" + String(t.getDate()).padStart(2, "0");
+    $("acType").value = "Call";
+    renderAcDeal();
+    openSheet("activitySheet");
+  }
+  function renderAcDeal() {
+    $("acDealField").hidden = acFixed;
+    $("acDealFixed").hidden = !acFixed;
+    var d = acDealId ? deal(acDealId) : null;
+    if (acFixed) {
+      $("acDealFixed").innerHTML = avatar(company(d.companyId).name, "sm") + '<div><b>' + esc(company(d.companyId).name) + "</b><small>" + esc(d.product) + " · " + money(d.value) + "</small></div>";
+    } else setPickerBtn($("acDealBtn"), d ? company(d.companyId).name + " · " + d.product : "", "Search deals…");
+    $("acStageHint").hidden = !d;
+    if (d) $("acStageHint").innerHTML = "Logged to the <b>" + esc(stageById(d.stage).name) + "</b> stage";
+    validateAc();
+  }
+  function validateAc() {
+    $("acSubmit").disabled = !(acDealId && $("acType").value && $("acDate").value && $("acTime").value &&
+      Number($("acDuration").value) > 0 && $("acComment").value.trim());
+  }
+  $("acDealBtn").addEventListener("click", function () {
+    openPicker({
+      title: "Deal",
+      placeholder: "Search deals…",
+      items: function () {
+        return state.deals.filter(function (d) { return d.stage !== "closed"; }).map(function (d) {
+          return { id: d.id, label: company(d.companyId).name, sub: d.product + " · " + stageById(d.stage).name + " · " + money(d.value) };
+        });
+      },
+      selected: acDealId,
+      onPick: function (id) { acDealId = id; renderAcDeal(); }
+    });
+  });
+  $("activityForm").addEventListener("input", validateAc);
+  $("activityForm").addEventListener("change", validateAc);
+  $("activityForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    validateAc();
+    if ($("acSubmit").disabled) return;
+    var d = deal(acDealId);
+    var a = { id: uid("ac"), dealId: d.id, stage: d.stage, type: $("acType").value, date: $("acDate").value, time: $("acTime").value,
+      duration: Math.round(Number($("acDuration").value)), comment: $("acComment").value.trim(), by: "Nkechi" };
+    state.activities.push(a);
+    var dl = sortActivities(state.activities.filter(function (x) { return x.dealId === d.id; }));
+    dealActPage[d.id] = Math.floor(dl.indexOf(a) / DEAL_ACT_PAGE) + 1;
+    // show the page that holds the new activity
+    var visible = sortActivities(state.activities.filter(function (x) { return ownerFilter === "all" || deal(x.dealId).owner === ownerFilter; }));
+    var at = visible.indexOf(a);
+    pages.activity = at < 0 ? 1 : Math.floor(at / PAGE_SIZE) + 1;
+    closeSheet("activitySheet");
+    renderActivity();
+    if ($("dealSheet").classList.contains("open") && openDealId === d.id) renderDealSheet(d.id);
+    if ($("dealActSheet").classList.contains("open") && daDealId === d.id) renderDealActivities();
+    toast(esc(a.type) + " logged on <b>" + esc(company(d.companyId).name) + "</b> · " + esc(stageById(d.stage).name));
+  });
+
+  // ---------- Guided flows (desktop brief) ----------
+  function closeAll() { stack.slice().forEach(closeSheet); }
+  document.querySelectorAll("[data-flow]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      closeAll();
+      var f = b.getAttribute("data-flow");
+      setTimeout(function () {
+        if (f === "move") {
+          setScreen("pipeline"); state.stage = "qualified"; renderPipeline();
+          toast("Use the stage dropdown on a card to move it to a later stage");
+        } else if (f === "deal") { setScreen("pipeline"); openNewDeal(); }
+        else if (f === "company") { setScreen("companies"); openAddCompany(); }
+        else { setScreen("activity"); openActivity(null); }
+      }, 0);
+    });
+  });
+  $("resetBtn").addEventListener("click", function () {
+    closeAll();
+    state = seed();
+    $("dealSearch").value = ""; $("companySearch").value = ""; ownerFilter = "all"; pages = { deals: 1, companies: 1, activity: 1 };
+    setScreen("pipeline");
+    renderAll();
+    toast("Sample data reset");
+  });
+
+
+  function renderAll() { renderPipeline(); renderCompanies(); renderActivity(); }
+
+  state = seed();
+  renderAll();
+  setScreen("pipeline");
+})();
+
+</script>
+</body>
+</html>
