@@ -17,7 +17,7 @@ On a desktop browser it shows in a phone frame with shortcuts to each flow; on a
 
 ## What it covers
 
-- **Login:** log in with a work email and password (show/hide password, keep me logged in, error states), forgot password and a "check your email" confirmation. Tap your initials in the top bar to see your account and log out. Demo login: **demo@oneport365.com** / **Demo@365** (or tap "Fill in demo login"). Any other email or password shows the wrong-credentials error.
+- **Login:** log in with an email and password (show/hide password, keep me logged in, field errors, loading state), forgot password and a "check your email" confirmation. Tap your initials in the top bar to see your account and log out. In the prototype any valid email with any password logs in.
 - **Pipeline:** filter deals by stage, search by company, deal owner or contact, and move a deal forward through Prospect → Contacted → Qualified → Quote issued → Closed (Won or Lost), with an optional comment on each move. Deals can't move back.
 - **New deal:** pick an existing company and contact, or add a new company and contact in the same form.
 - **Deal detail:** deal stage, activities (paged at 10, scrollable), move comments, contact and deal details.
