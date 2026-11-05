@@ -884,6 +884,15 @@ button { font: inherit; color: inherit; }
 .statusbar { transition: background .28s, color .28s; }
 .auth-hero { padding-top: max(28px, env(safe-area-inset-top)); }
 
+.demo-cred {
+  margin-top: 16px; padding: 12px 14px; border-radius: var(--op-radius-lg);
+  background: #F4F6EF; border: 1px dashed var(--op-border-input); font-size: 13px;
+}
+.demo-cred dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 8px 0 10px; }
+.demo-cred dt { color: var(--op-silver-light); }
+.demo-cred dd { margin: 0; font-weight: 700; color: var(--op-dark-green); user-select: all; }
+.demo-cred .link { font-size: 13px; }
+
 </style>
 </head>
 <body>
@@ -1275,7 +1284,11 @@ button { font: inherit; color: inherit; }
             <button type="button" class="link" id="forgotLink">Forgot password?</button>
           </div>
           <button type="submit" class="btn btn-primary btn-block" id="loginSubmit"><span class="spinner" hidden></span><span class="lbl">Log in</span></button>
-          <p class="auth-hint">Prototype: use any <b>@oneport365.com</b> email and a password of 6 or more characters.</p>
+          <div class="demo-cred">
+            <span class="kpi-label">Demo login</span>
+            <dl><dt>Email</dt><dd>demo@oneport365.com</dd><dt>Password</dt><dd>Demo@365</dd></dl>
+            <button type="button" class="link" id="fillDemo">Fill in demo login</button>
+          </div>
         </form>
 
         <!-- Forgot password -->
@@ -2374,11 +2387,10 @@ button { font: inherit; color: inherit; }
   function renderAll() { renderPipeline(); renderCompanies(); renderActivity(); }
 
   // ---------- Login flow ----------
+  // Dummy credentials for the prototype
+  var DEMO_USER = { email: "demo@oneport365.com", password: "Demo@365", name: "Demo User" };
   var currentUser = { name: "", email: "" };
-  function nameFromEmail(email) {
-    var local = email.split("@")[0].split(/[._-]+/)[0] || "User";
-    return local.charAt(0).toUpperCase() + local.slice(1).toLowerCase();
-  }
+
   function showAuth(view) {
     $("loginForm").hidden = view !== "login";
     $("forgotForm").hidden = view !== "forgot";
@@ -2425,7 +2437,7 @@ button { font: inherit; color: inherit; }
     setBusy(btn, true, "Logging in…");
     setTimeout(function () {
       setBusy(btn, false, "Log in");
-      if (pw.value.length < 6) {
+      if (email.value.trim().toLowerCase() !== DEMO_USER.email || pw.value !== DEMO_USER.password) {
         $("loginError").innerHTML = "<b>That email and password don't match.</b> Check them and try again, or reset your password.";
         $("loginError").hidden = false;
         pw.value = ""; pw.focus();
@@ -2435,10 +2447,8 @@ button { font: inherit; color: inherit; }
     }, 900);
   });
   function logIn(email) {
-    currentUser = { email: email, name: nameFromEmail(email) };
-    // "ada.okeke@" -> AO, "nkechim@" -> NK
-    var parts = email.split("@")[0].split(/[._-]+/).filter(Boolean);
-    $("profileBtn").textContent = (parts.length > 1 ? parts[0][0] + parts[1][0] : parts[0].slice(0, 2)).toUpperCase();
+    currentUser = { email: DEMO_USER.email, name: DEMO_USER.name };
+    $("profileBtn").textContent = initials(DEMO_USER.name);
     $("auth").classList.add("leaving");
     setTimeout(function () {
       $("auth").hidden = true;
@@ -2448,6 +2458,12 @@ button { font: inherit; color: inherit; }
       toast("Welcome back, <b>" + esc(currentUser.name) + "</b>");
     }, 280);
   }
+  $("fillDemo").addEventListener("click", function () {
+    $("loginEmail").value = DEMO_USER.email;
+    $("loginPassword").value = DEMO_USER.password;
+    clearErrors($("loginForm")); $("loginError").hidden = true;
+    $("loginSubmit").focus();
+  });
   $("forgotLink").addEventListener("click", function () {
     $("forgotEmail").value = $("loginEmail").value.trim();
     showAuth("forgot");
