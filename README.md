@@ -23,7 +23,7 @@ On a desktop browser it shows in a phone frame with shortcuts to each flow; on a
 - **Deal detail:** deal information only, like the desktop deal page: stage, contact, deal amount, product, date created, sales owner, class and note.
 - **Deal activities:** from the Activity tab, a deal's stage, its activities (paged at 10, scrollable) with Add activity, and the comments left when the deal was moved.
 - **Companies:** company details (name, class, deal owner), contacts and a deal count. Add company also captures its main contact.
-- **Activity:** every activity logged against a deal (meeting type, date, time, duration, comment), filterable by deal owner. Each activity is tied to the deal's stage when it was logged.
+- **Activity:** every activity logged against a deal (meeting type, date, time, duration, comment), filterable by deal owner. Each activity has an Edit button to change its meeting type, date, time, duration or comment. Each activity is tied to the deal's stage when it was logged.
 - Lists are paginated at 5 per page.
 
 ## Files
