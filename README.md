@@ -20,8 +20,8 @@ On a desktop browser it shows in a phone frame with shortcuts to each flow; on a
 - **Login:** log in with an email and password (show/hide password, keep me logged in, field errors, loading state), forgot password and a "check your email" confirmation. Tap your initials in the top bar to see your account and log out. In the prototype any valid email with any password logs in.
 - **Pipeline:** filter deals by stage, search by company, deal owner or contact, and move a deal forward through Prospect → Contacted → Qualified → Quote issued → Closed (Won or Lost), with an optional comment on each move. Deals can't move back.
 - **New deal:** pick an existing company and contact, or add a new company and contact in the same form.
-- **Deal detail:** deal information only, like the desktop deal page: stage, contact, deal amount, product, date created, sales owner, class, note and comments.
-- **Deal activities:** from the Activity tab, a deal's stage and its activities (paged at 10, scrollable) with Add activity.
+- **Deal detail:** deal information only, like the desktop deal page: stage, contact, deal amount, product, date created, sales owner, class and note.
+- **Deal activities:** from the Activity tab, a deal's stage, its activities (paged at 10, scrollable) with Add activity, and the comments left when the deal was moved.
 - **Companies:** company details (name, class, deal owner), contacts and a deal count. Add company also captures its main contact.
 - **Activity:** every activity logged against a deal (meeting type, date, time, duration, comment), filterable by deal owner. Each activity is tied to the deal's stage when it was logged.
 - Lists are paginated at 5 per page.
