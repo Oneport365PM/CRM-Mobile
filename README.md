@@ -17,6 +17,7 @@ On a desktop browser it shows in a phone frame with shortcuts to each flow; on a
 
 ## What it covers
 
+- **Deal IDs, RFQs and quotes:** every deal has an ID (`DL-YY-MM-NNN`). Moving a deal to Qualified raises an RFQ (`RFQ-YY-MM-NNN`, e.g. RFQ-26-11-015) and moving it to Quote issued raises a quote (`Q-YY-MM-NNN`, e.g. Q-26-11-017). Both are linked on the deal card and deal detail, and searchable.
 - **Login:** log in with an email and password (show/hide password, keep me logged in, field errors, loading state), forgot password and a "check your email" confirmation. Tap your initials in the top bar to see your account and log out. In the prototype any valid email with any password logs in.
 - **Pipeline:** filter deals by stage, search by company, deal owner or contact, and move a deal forward through Prospect → Contacted → Qualified → Quote issued → Closed (Won or Lost), with an optional comment on each move. Deals can't move back.
 - **New deal:** pick an existing company and contact, or add a new company and contact in the same form.
